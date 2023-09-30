@@ -19,6 +19,16 @@ class AntColonyOptimization:
         Number of ants
     evaporation_rate: float
         Evaporation rate
+
+    Usage
+    -----
+    from swarms_torch import AntColonyOptimization
+
+    goal_string = "Hello ACO"
+    aco = AntColonyOptimization(goal_string, num_iterations=1000)
+    best_solution = aco.optimize()
+    
+    print("Best Matched String:", best_solution)
     
     Features to implement
     --------

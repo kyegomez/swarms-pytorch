@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "swarms-torch"
-version = "0.0.1"
+version = "0.0.2"
 description = "swarms-torch - Pytorch"
 license = "MIT"
 authors = ["Kye Gomez <kye@apac.ai>"]
