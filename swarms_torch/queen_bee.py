@@ -27,7 +27,7 @@ class QueenBeeGa:
     """
     def __init__(
         self,
-        goal: int ="Attention is all you need",
+        goal: str = "Attention is all you need",
         pop_size: int = 100,
         mutation_prob: float = 0.04,
         strong_mutation_rate: float = 0.1,

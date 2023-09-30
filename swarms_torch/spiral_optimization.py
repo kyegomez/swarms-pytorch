@@ -6,7 +6,12 @@ class SPO:
     
     Implements the SPO algorithm for optimization towards a target string.
     """
-    def __init__(self, goal_str, m=10, k_max=1000):
+    def __init__(
+        self,
+        goal: str = None,
+        m: int = 10,
+        k_max: int = 1000
+    ):
         """
         Initialize the SPO class.
         
@@ -22,8 +27,12 @@ class SPO:
         
         # Initializing the search points and center randomly
         # Note: 32-126 is the ASCII range for all printable characters
-        self.points = torch.randint(32, 127, (m, self.n_dim), dtype=torch.float32)
-        self.center = torch.randint(32, 127, (self.n_dim,), dtype=torch.float32)
+        self.points = torch.randint(
+            32, 127, (self.m, self.n_dim), dtype=torch.float32
+        )
+        self.center = torch.randint(
+            32, 127, (self.n_dim,), dtype=torch.float32
+        )
     
     def _step_rate(self, k):
         """
@@ -41,7 +50,9 @@ class SPO:
         r = self._step_rate(k)
         R = torch.eye(self.n_dim)  # Identity for simplicity in n-dimensions
         for i in range(self.m):
-            self.points[i] = self.center + r * torch.mv(R, (self.points[i] - self.center))
+            self.points[i] = self.center + r * torch.mv(
+                R, (self.points[i] - self.center)
+            )
     
     def _update_center(self):
         """Find the best search point and set as the new center."""
@@ -58,9 +69,9 @@ class SPO:
                 break
 
     def best_string(self):
-        """Convert the best found point to its string representation."""
-        return ''.join([chr(int(c)) for c in self.center.round()])
-
+        """Convert the best found point to its string representation"""
+        return "".join([chr(int(c)) for c in self.center.round()])
+    
 # Example Usage
 goal_str = "Attention is all you need"
 optimizer = SPO(goal_str)
