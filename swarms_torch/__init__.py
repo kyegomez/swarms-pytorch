@@ -1,1 +1,2 @@
 from swarms_torch.particle_swarm import ParticleSwarmOptimization
+from swarms_torch.ant_colony_swarm import AntColonyOptimization

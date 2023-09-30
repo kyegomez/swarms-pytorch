@@ -27,7 +27,7 @@ class AntColonyOptimization:
     3. Add a function to plot the pheromone levels
     4. Add a function to plot the ants
     5. Add a function to plot the best solution
-    
+
     """
     def __init__(
         self, 
@@ -83,9 +83,3 @@ class AntColonyOptimization:
         best_solution_index = self.pheromones.argmax().item()
         best_solution = self.solutions[best_solution_index]
         return "".join([chr(int(c)) for c in best_solution])
-
-# Usage:
-goal_string = "Hello ACO"
-aco = AntColonyOptimization(goal_string, num_iterations=1000)
-best_solution = aco.optimize()
-print("Best Matched String:", best_solution)
