@@ -98,8 +98,13 @@ class ParticleSwarmOptimization:
                 self.global_best = self.particles[i]
 
             #update velocity
-            personal_attraction = self.personal_best_weight * torch.rand(self.goal.size()) * (self.personal_best[i] - self.particles[i])
-            global_attraction = self.global_best_weight * torch.rand(self.goal.size()) * (self.global_best - self.particles[i])
+            personal_attraction = self.personal_best_weight * torch.rand(
+                self.goal.size()
+            ) * (self.personal_best[i] - self.particles[i])
+            
+            global_attraction = self.global_best_weight * torch.rand(
+                self.goal.size()
+            ) * (self.global_best - self.particles[i])
             
             self.velocities[i] = self.inertia * self.velocities[i] + personal_attraction + global_attraction
             
