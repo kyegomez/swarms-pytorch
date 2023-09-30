@@ -1,0 +1,1 @@
+from swarms_torch.particle_swarm import ParticleSwarmOptimization

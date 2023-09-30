@@ -120,8 +120,3 @@ class ParticleSwarmOptimization:
                 ''.join([chr(int(i)) for i in best_particle])
             )
 
-
-
-#test
-pso = ParticleSwarmOptimization(goal="Attention is all you need", n_particles=100)
-pso.optimize(iterations=1000)
