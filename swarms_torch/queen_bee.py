@@ -11,7 +11,19 @@ class QueenBeeGa:
 
     Reference:
     ---------
-    https://www.researchgate.net/publication/228961729_A_Queen_Bee_GA_for_optimization    
+    https://www.researchgate.net/publication/228961729_A_Queen_Bee_GA_for_optimization  
+
+    Usage
+    -----
+    optimizer = QueenBeeGa(
+        goal="Attention is all you need",
+        pop_size=100,
+        mutation_prob=0.04,
+        strong_mutation_rate=0.1,
+        strong_mutation_prob=0.25,
+        num_tournament_participants=25  
+    )
+    optimizer.run(max_generations=100)  
     """
     def __init__(
         self,
