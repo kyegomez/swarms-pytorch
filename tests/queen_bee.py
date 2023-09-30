@@ -1,6 +1,6 @@
 import unittest
 import torch
-from swarms_torch import QueenBeeGa  # Import the class
+from swarms_torch.queen_bee import QueenBeeGa  # Import the class
 
 class TestQueenBeeGa(unittest.TestCase):
 
