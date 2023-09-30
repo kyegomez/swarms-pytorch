@@ -5,6 +5,32 @@ class SPO:
     Spiral Optimization (SPO) Algorithm in PyTorch.
     
     Implements the SPO algorithm for optimization towards a target string.
+
+    How does it work?
+    ----------
+    1. Initialize the search points randomly
+    2. Initialize the center randomly
+    3. Update the search points based on the spiral model
+    4. Find the best search point and set as the new center
+    5. Repeat step 3 to 4 until the maximum number of iterations is reached
+
+    Usage
+    -----
+    from swarms_torch import SPO
+
+    goal_string = "Hello SPO"
+    spo = SPO(goal_string, m=100, k_max=1000)
+    spo.optimize()
+
+    print("Best Matched String:", spo.best_string())
+
+    Future Features to implement
+    --------
+    1. Add a stopping criterion
+    2. Add a callback function to track the progress
+    3. Add a function to plot the search points
+    4. Add a function to plot the best solution
+    
     """
     def __init__(
         self,
@@ -20,7 +46,10 @@ class SPO:
         - m: Number of search points (strings).
         - k_max: Maximum number of iterations.
         """
-        self.goal = torch.tensor([ord(c) for c in goal_str], dtype=torch.float32)  # ASCII representation
+        self.goal = torch.tensor([
+            ord(c) for c in goal_str
+        ], dtype=torch.float32)  # ASCII representation
+
         self.m = m
         self.k_max = k_max
         self.n_dim = len(goal_str)
