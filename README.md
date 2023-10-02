@@ -36,7 +36,7 @@ print("Best Matched String:", best_solution)
 ```
 
 # Documentation
-- Click here for documentation
+- [Click here for documentation](https://swarmstorch.readthedocs.io/en/latest/swarms/)
 
 
 # Todo
