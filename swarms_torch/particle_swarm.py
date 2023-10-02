@@ -80,6 +80,7 @@ class ParticleSwarmOptimization:
     def update(
         self,
     ):
+        """Update the particles"""
         for i in range(self.n_particles):
             fitness = self.compute_fitness(
                 self.particles[i],
@@ -116,6 +117,7 @@ class ParticleSwarmOptimization:
         self,
         iterations: int = 1000,
     ):
+        """Optimize the goal string"""
         for _ in range(iterations):
             self.update()
             best_particle = self.global_best

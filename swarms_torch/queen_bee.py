@@ -158,6 +158,6 @@ class QueenBeeGa:
         fitnesses = 1. / torch.square(self.pool - self.target_gene).sum(dim=-1)
         return (fitnesses == float('inf')).any().item()
     
-# Usage:
-optimizer = QueenBeeGa()
-optimizer.run(max_generations=100)
+# # Usage:
+# optimizer = QueenBeeGa()
+# optimizer.run(max_generations=100)

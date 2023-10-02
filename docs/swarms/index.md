@@ -1,8 +1,5 @@
-[![Multi-Modality](agorabanner.png)](https://discord.gg/qUtxnK2NMf)
-
 # Swarms in Torch
-Swarming algorithms like PSO, Ant Colony, Sakana, and more in PyTorch primitives😊
-
+A home for swarming algorithms like PSO, Ant Colony, Sakana, and more in PyTorch primitives through an emphasis on use-ability, reliability, and performance.
 
 ## Installation
 

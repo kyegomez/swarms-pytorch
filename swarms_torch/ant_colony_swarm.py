@@ -59,15 +59,18 @@ class AntColonyOptimization:
         self.solutions = []
 
     def fitness(self, solution):
+        """Fitness of a solution"""
         return -torch.norm(solution - self.goal)
 
     def update_pheromones(self):
+        """Update pheromone levels"""
         for i, solution in enumerate(self.solutions):
             self.pheromones[i] = (
                 1 - self.evaporation_rate
             ) * self.pheromones[i] + self.fitness(solution)
 
     def choose_next_path(self):
+        """Choose the next path based on the pheromone levels"""
         probabilities = (
             self.pheromones ** self.alpha
         ) * ((1.0 / (1 + self.pheromones)) ** self.beta)
@@ -77,6 +80,7 @@ class AntColonyOptimization:
         return torch.multinomial(probabilities, num_samples=1).item()
 
     def optimize(self):
+        """Optimize the goal string"""
         for iteration in range(self.num_iterations):
             self.solutions = []
             for _ in range(self.num_ants):
