@@ -18,8 +18,8 @@ class SPO:
     -----
     from swarms_torch import SPO
 
-    goal_string = "Hello SPO"
-    spo = SPO(goal_string, m=100, k_max=1000)
+    goaling = "Hello SPO"
+    spo = SPO(goaling, m=100, k_max=1000)
     spo.optimize()
 
     print("Best Matched String:", spo.best_string())
@@ -42,17 +42,17 @@ class SPO:
         Initialize the SPO class.
         
         Args:
-        - goal_str: The target string.
+        - goal: The target string.
         - m: Number of search points (strings).
         - k_max: Maximum number of iterations.
         """
         self.goal = torch.tensor([
-            ord(c) for c in goal_str
+            ord(c) for c in goal
         ], dtype=torch.float32)  # ASCII representation
 
         self.m = m
         self.k_max = k_max
-        self.n_dim = len(goal_str)
+        self.n_dim = len(goal)
         
         # Initializing the search points and center randomly
         # Note: 32-126 is the ASCII range for all printable characters
@@ -101,8 +101,8 @@ class SPO:
         """Convert the best found point to its string representation"""
         return "".join([chr(int(c)) for c in self.center.round()])
     
-# Example Usage
-goal_str = "Attention is all you need"
-optimizer = SPO(goal_str)
-optimizer.optimize()
-print(f"Optimized String: {optimizer.best_string()}")
+# # Example Usage
+# goal = "Attention is all you need"
+# optimizer = SPO(goal)
+# optimizer.optimize()
+# print(f"Optimized String: {optimizer.best_string()}")
