@@ -35,6 +35,10 @@ print("Best Matched String:", best_solution)
 
 ```
 
+# Documentation
+- Click here for documentation
+
+
 # Todo
 Here are 10 swarming neural network algorithms, with brief overviews, algorithmic pseudocode, and potential use cases for each:
 
