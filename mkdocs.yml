@@ -75,8 +75,7 @@ nav:
     - Overview: "swarms/index.md"
     - swarms_torch:
       - ParticleSwarmOptimization: "swarms/pso.md"
-      - AntColonyOptimization: "swarms/aco.md"
-      - 
+      - AntColonyOptimization: "swarms/aco.md
 - Examples:
     - Overview: "examples/index.md"
     - FlashAttention: "examples/nn/attentions/flash.md"
