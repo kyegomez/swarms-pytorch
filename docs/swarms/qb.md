@@ -1,4 +1,4 @@
-# QueenBeeGa Class
+# `QueenBeeGa` Class
 
 The `QueenBeeGa` class implements the Queen Bee Genetic Algorithm (GA). This GA is inspired by the evolution of bees, where the fittest solution is designated as the queen and the rest of the population contends to mate with it. The strong exploitation is balanced by a higher than normal mutation rate.
 

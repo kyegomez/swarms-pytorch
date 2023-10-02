@@ -1,4 +1,4 @@
-# ParticleSwarmOptimization Class
+# `ParticleSwarmOptimization` Class
 
 The `ParticleSwarmOptimization` class implements the Particle Swarm Optimization (PSO) algorithm. PSO is a computational method that optimizes a problem by iteratively trying to improve a candidate solution with regard to a given measure of quality. It solves a problem by having a population of candidate solutions, here dubbed particles, and moving these particles around in the search-space according to simple mathematical formulae over the particle's position and velocity.
 
