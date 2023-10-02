@@ -1,20 +1,20 @@
-# Zeta Docs
+# Swarms Docs
 
-Welcome to Zeta's Documentation!
+Welcome to Swarms's Documentation!
 
-Zeta is a modular framework that enables for seamless, reliable, and fluid creation of zetascale AI models.
+Swarms is a modular framework that enables for seamless, reliable, and fluid creation of Swarmsscale AI models.
 
-## Zeta
+## Swarms
 
-<!-- ![Zeta Banner](docs/assets/img/zetascale.png) -->
+<!-- ![Swarms Banner](docs/assets/img/Swarmsscale.png) -->
 
-Zeta provides you with reliable, high performance, and fast modular building blocks for building zeta scale neural nets at lightspeed with minimal code and a pythonic API. 
+Swarms provides you with reliable, high performance, and fast modular building blocks for building Swarms scale neural nets at lightspeed with minimal code and a pythonic API. 
 
-[Click here for Zeta Documentation →](zeta/)
+[Click here for Swarms Documentation →](S/)
 
 
 ## Examples
 
-Check out Zeta examples for building agents, data retrieval, and more.
+Check out Swarms examples for building agents, data retrieval, and more.
 
-[Checkout Zeta examples →](examples/)
+[Checkout Swarms examples →](examples/)
