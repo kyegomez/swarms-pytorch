@@ -158,6 +158,8 @@ class NNTransformer(nn.Module):
         nhead
     ):
         super(NNTransformer, self).__init__()
+
+        # Initialize neurons and synapses
         self.neurons = nn.ModuleList(
             [Neuron(num_states) for _ in range(neuron_count)]
         )

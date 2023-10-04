@@ -40,15 +40,32 @@ print("Best Matched String:", best_solution)
 import torch
 from swarms_torch.nnt import NNTransformer
 
-network = NNTransformer(5, 10, 10, 10, 2)
-output = network(torch.randn(1, 10))
+x = torch.randn(1, 10)
+
+network = NNTransformer(
+    #transformer cells
+    neuron_count = 5, 
+    
+    #num states
+    num_states = 10,
+
+    #input dim
+    input_dim = 10,
+
+    #output dim
+    output_dim = 10,
+
+    #nhead
+    nhead = 2,
+)
+output = network(x)
 print(output)
 ```
 
 - CellularSwarm, a Cellular Neural Net with transformers as cells, time simulation, and a local neighboorhood!
 
 ```python
-from swarms_torch importCellularSwarm 
+from swarms_torch import CellularSwarm 
 
 x = torch.randn(10, 32, 512)  # sequence length of 10, batch size of 32, embedding size of 512
 model = CellularSwarm(cell_count=5, input_dim=512, nhead=8)
