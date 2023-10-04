@@ -45,7 +45,8 @@ output = network(torch.randn(1, 10))
 print(output)
 ```
 
-- CellularSwarm, a Cellular Neural Net with transformers as cells, time simulation, and a local neighboor
+- CellularSwarm, a Cellular Neural Net with transformers as cells, time simulation, and a local neighboorhood!
+
 ```python
 from swarms_torch importCellularSwarm 
 

@@ -90,6 +90,63 @@ class NNTransformer(nn.Module):
         output = network(torch.randn(1, 10))
         print(output)
     
+        
+    Training:
+    network = NNTransformer(5, 10, 10, 10, 2)
+    output = network(torch.randn(1, 10))
+    print(output)
+
+
+    # Test the network
+    import torch
+    import torch.optim as optim
+    import torch.nn.functional as F
+
+    # Random dataset
+    batch_size = 64
+    input_size = 10
+    output_size = 10
+
+    x = torch.randn(batch_size, input_size)  # Random inputs
+    y = torch.randn(batch_size, output_size)  # Random targets
+
+    # Hyperparameters
+    neuron_count = 5
+    num_states = 10
+    input_dim = input_size
+    output_dim = output_size
+    n_head = 2
+
+    # Initialize the network
+    network = CellularNN(neuron_count, num_states, input_dim, output_dim, n_head)
+
+    # Define the loss function and optimizer
+    criterion = nn.MSELoss()
+    optimizer = optim.Adam(network.parameters(), lr=0.001)
+
+    # Training loop
+    epochs = 1000
+    for epoch in range(epochs):
+        # Forward pass
+        outputs = network(x)
+        
+        # Compute loss
+        loss = criterion(outputs, y)
+        
+        # Backward pass and optimization
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        
+        # Print loss every 100 epochs
+        if (epoch+1) % 100 == 0:
+            print(f"Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}")
+
+    # Test the network with a new random input
+    test_input = torch.randn(1, input_size)
+    test_output = network(test_input)
+    print(test_output)
+
     
     """
     def __init__(
@@ -126,57 +183,3 @@ class NNTransformer(nn.Module):
         return self.neurons[-1].states
 
 
-# network = NNTransformer(5, 10, 10, 10, 2)
-# output = network(torch.randn(1, 10))
-# print(output)
-
-
-# # Test the network
-# import torch
-# import torch.optim as optim
-# import torch.nn.functional as F
-
-# # Random dataset
-# batch_size = 64
-# input_size = 10
-# output_size = 10
-
-# x = torch.randn(batch_size, input_size)  # Random inputs
-# y = torch.randn(batch_size, output_size)  # Random targets
-
-# # Hyperparameters
-# neuron_count = 5
-# num_states = 10
-# input_dim = input_size
-# output_dim = output_size
-# n_head = 2
-
-# # Initialize the network
-# network = CellularNN(neuron_count, num_states, input_dim, output_dim, n_head)
-
-# # Define the loss function and optimizer
-# criterion = nn.MSELoss()
-# optimizer = optim.Adam(network.parameters(), lr=0.001)
-
-# # Training loop
-# epochs = 1000
-# for epoch in range(epochs):
-#     # Forward pass
-#     outputs = network(x)
-    
-#     # Compute loss
-#     loss = criterion(outputs, y)
-    
-#     # Backward pass and optimization
-#     optimizer.zero_grad()
-#     loss.backward()
-#     optimizer.step()
-    
-#     # Print loss every 100 epochs
-#     if (epoch+1) % 100 == 0:
-#         print(f"Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}")
-
-# # Test the network with a new random input
-# test_input = torch.randn(1, input_size)
-# test_output = network(test_input)
-# print(test_output)
