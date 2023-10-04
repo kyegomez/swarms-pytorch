@@ -35,6 +35,16 @@ print("Best Matched String:", best_solution)
 
 ```
 
+- Neural Network with Transformers as synapases LMAO.
+```python
+import torch
+from swarms_torch.nnt import NNTransformer
+
+network = NNTransformer(5, 10, 10, 10, 2)
+output = network(torch.randn(1, 10))
+print(output)
+```
+
 # Documentation
 - [Click here for documentation](https://swarmstorch.readthedocs.io/en/latest/swarms/)
 
