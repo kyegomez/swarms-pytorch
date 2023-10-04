@@ -21,6 +21,5 @@ network = NNTransformer(
 )
 
 
-
 output = network(x)
 print(output)

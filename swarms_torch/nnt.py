@@ -1,4 +1,14 @@
-"""Cellular neural network """
+"""
+
+Cellular neural network 
+
+Architecture:
+    - Input -> Linear -> ReLU -> Linear -> ReLU -> Output
+    - Neuron states are updated after each synapse
+    - Softmax is applied after each synapse
+    - Layer normalization is applied after each synapse
+
+"""
 
 import torch 
 from torch import nn
