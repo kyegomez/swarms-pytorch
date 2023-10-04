@@ -85,7 +85,4 @@ class CellularSwarm(nn.Module):
                 x = cell(x, neighbors)
         return x
 
-# Example usage:
-input_sequence = torch.randn(10, 32, 512)  # sequence length of 10, batch size of 32, embedding size of 512
-model = CellularSwarm(cell_count=5, input_dim=512, nhead=8)
-output = model(input_sequence)
+# 

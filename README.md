@@ -45,6 +45,16 @@ output = network(torch.randn(1, 10))
 print(output)
 ```
 
+- CellularSwarm, a Cellular Neural Net with transformers as cells, time simulation, and a local neighboor
+```python
+from swarms_torch importCellularSwarm 
+
+x = torch.randn(10, 32, 512)  # sequence length of 10, batch size of 32, embedding size of 512
+model = CellularSwarm(cell_count=5, input_dim=512, nhead=8)
+output = model(x)
+
+```
+
 # Documentation
 - [Click here for documentation](https://swarmstorch.readthedocs.io/en/latest/swarms/)
 
