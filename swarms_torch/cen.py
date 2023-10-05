@@ -18,9 +18,11 @@ class TransformerCell(nn.Module):
         self.neighborhood_size = neighborhood_size
     
     def forward(self, x, neigbors):
+
         x = self.transformer(x, x)
+
         out = torch.cat([x] + neigbors, dim=0)
-        print(out)
+        
         return out
     
 
@@ -79,10 +81,11 @@ class CellularSwarm(nn.Module):
                 )
 
                 neighbors = [
-                    self.cells[j].transformer(x, x) for j in range(start_idx, end_idx) if j != i
+                    self.cells[j].transformer(x, x) for j in range(
+                        start_idx, 
+                        end_idx
+                    ) if j != i
                 ]
 
                 x = cell(x, neighbors)
         return x
-
-# 
