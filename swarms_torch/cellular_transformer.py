@@ -89,3 +89,4 @@ class CellularSwarm(nn.Module):
 
                 x = cell(x, neighbors)
         return x
+
