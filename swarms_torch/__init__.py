@@ -10,5 +10,4 @@ __all__ = [
     "ParticleSwarmOptimization",
     "AntColonyOptimization",
     "QueenBeeGa",
-    "SPO"
-]
+    "SPO"]

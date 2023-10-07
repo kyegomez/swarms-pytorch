@@ -1,5 +1,6 @@
 import torch
 
+
 class ParticleSwarmOptimization:
     """
     Particle Swarm Optimization
@@ -46,9 +47,10 @@ class ParticleSwarmOptimization:
     9. Add a function to plot the personal best weight
     10. Add a function to plot the global best weight
 
-    
-    
+
+
     """
+
     def __init__(
         self,
         goal: str = None,
@@ -56,7 +58,7 @@ class ParticleSwarmOptimization:
         inertia: float = 0.5,
         personal_best_weight: float = 1.5,
         global_best_weight: float = 1.5,
-        dim: int = 1
+        dim: int = 1,
     ):
         self.goal = torch.tensor([ord(c) for c in goal])
         self.n_particles = n_particles
@@ -69,14 +71,13 @@ class ParticleSwarmOptimization:
 
         self.personal_best = self.particles.clone()
         self.global_best = self.particles[0].clone()
-    
+
     def compute_fitness(
         self,
         particle,
     ):
         return 1.0 / (1.0 + torch.norm((particle - self.goal).float()))
 
-    
     def update(
         self,
     ):
@@ -92,23 +93,31 @@ class ParticleSwarmOptimization:
 
             if fitness > personal_best_fitness:
                 self.personal_best[i] = self.particles[i]
-            
+
             global_best_fitness = self.compute_fitness(self.global_best)
 
             if fitness > global_best_fitness:
                 self.global_best = self.particles[i]
 
-            #update velocity
-            personal_attraction = self.personal_best_weight * torch.rand(
-                self.goal.size()
-            ) * (self.personal_best[i] - self.particles[i])
-            
-            global_attraction = self.global_best_weight * torch.rand(
-                self.goal.size()
-            ) * (self.global_best - self.particles[i])
-            
-            self.velocities[i] = self.inertia * self.velocities[i] + personal_attraction + global_attraction
-            
+            # update velocity
+            personal_attraction = (
+                self.personal_best_weight
+                * torch.rand(self.goal.size())
+                * (self.personal_best[i] - self.particles[i])
+            )
+
+            global_attraction = (
+                self.global_best_weight
+                * torch.rand(self.goal.size())
+                * (self.global_best - self.particles[i])
+            )
+
+            self.velocities[i] = (
+                self.inertia * self.velocities[i]
+                + personal_attraction
+                + global_attraction
+            )
+
             # Update position
             self.particles[i] += self.velocities[i].int()
             self.particles[i].clamp_(0, 255)
@@ -121,8 +130,5 @@ class ParticleSwarmOptimization:
         for _ in range(iterations):
             self.update()
             best_particle = self.global_best
-            print(
-                "Best Particle: ",
-                ''.join([chr(int(i)) for i in best_particle])
-            )
-
+            print("Best Particle: ", "".join(
+                [chr(int(i)) for i in best_particle]))

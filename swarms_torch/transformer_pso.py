@@ -2,11 +2,13 @@ import torch
 import torch.nn as nn
 from copy import deepcopy
 
+
 class SimpleTransformer(nn.Module):
     def __init__(self, input_dim, d_model, nhead, num_layers, output_dim):
         super(SimpleTransformer, self).__init__()
         self.embedding = nn.Embedding(input_dim, d_model)
-        self.transformer = nn.Transformer(d_model, nhead, num_layers, num_layers)
+        self.transformer = nn.Transformer(
+            d_model, nhead, num_layers, num_layers)
         self.fc = nn.Linear(d_model, output_dim)
 
     def forward(self, x):
@@ -14,18 +16,19 @@ class SimpleTransformer(nn.Module):
         x = self.transformer(x, x)
         return self.fc(x[-1])
 
+
 class ParticleSwarmOptimization:
     def __init__(
-        self, 
+        self,
         model_constructor,  # Function to create a new model instance
-        model_args,         # Arguments for the model constructor
-        device,             # 'cuda' or 'cpu'
-        criterion, 
-        data_loader, 
-        n_particles=10, 
-        inertia=0.5, 
-        personal_best_weight=1.5, 
-        global_best_weight=1.5
+        model_args,  # Arguments for the model constructor
+        device,  # 'cuda' or 'cpu'
+        criterion,
+        data_loader,
+        n_particles=10,
+        inertia=0.5,
+        personal_best_weight=1.5,
+        global_best_weight=1.5,
     ):
         self.model_constructor = model_constructor
         self.model_args = model_args
@@ -39,9 +42,14 @@ class ParticleSwarmOptimization:
         self.global_best_weight = global_best_weight
 
         # Representing particles using model parameters
-        param_size = sum(p.numel() for p in model_constructor(*model_args).parameters())
-        self.particles = [self.model_constructor(*model_args).to(device) for _ in range(n_particles)]
-        self.velocities = [torch.zeros((param_size,)).to(device) for _ in range(n_particles)]
+        param_size = sum(p.numel()
+                         for p in model_constructor(*model_args).parameters())
+        self.particles = [
+            self.model_constructor(
+                *model_args).to(device) for _ in range(n_particles)]
+        self.velocities = [
+            torch.zeros((param_size,)).to(device) for _ in range(n_particles)
+        ]
         self.personal_best = [deepcopy(p.state_dict()) for p in self.particles]
         self.global_best = deepcopy(self.particles[0].state_dict())
 
@@ -73,23 +81,28 @@ class ParticleSwarmOptimization:
 
             # Update velocities and positions
             for name, param in particle.named_parameters():
-                delta = (self.personal_best_weight * torch.rand_like(param) * 
-                         (self.personal_best[idx][name].to(self.device) - param.data) +
-                         self.global_best_weight * torch.rand_like(param) * 
-                         (self.global_best[name].to(self.device) - param.data))
-                self.velocities[idx] += self.inertia * self.velocities[idx] + delta
+                delta = self.personal_best_weight * torch.rand_like(param) * (
+                    self.personal_best[idx][name].to(self.device) - param.data
+                ) + self.global_best_weight * torch.rand_like(param) * (
+                    self.global_best[name].to(self.device) - param.data
+                )
+                self.velocities[idx] += self.inertia * \
+                    self.velocities[idx] + delta
                 param.data += self.velocities[idx]
 
     def optimize(self, iterations=1000):
         for _ in range(iterations):
             self.update()
             best_particle_score = self.compute_fitness(self.global_best)
-            print(f"Iteration {_ + 1}/{iterations} - Best Particle Fitness: {best_particle_score}")
+            print(
+                f"Iteration {_ + 1}/{iterations} - Best Particle Fitness: {best_particle_score}"
+            )
 
     def get_best_model(self):
         best_model = self.model_constructor(*self.model_args).to(self.device)
         best_model.load_state_dict(self.global_best)
         return best_model
+
 
 # Define model and optimization parameters
 input_dim = 1000
@@ -105,7 +118,7 @@ sequence_length = 50
 pso = ParticleSwarmOptimization(
     SimpleTransformer,
     (input_dim, d_model, nhead, num_layers, output_dim),
-    device='cuda',  # or 'cpu'
+    device="cuda",  # or 'cpu'
     criterion=nn.CrossEntropyLoss(),
     # data_loader=your_dataloader  # replace with your dataloader
 )
@@ -117,7 +130,9 @@ pso.optimize(iterations=100)
 best_model = pso.get_best_model()
 
 # Generate a random input tensor
-x = torch.randint(0, input_dim, (batch_size, sequence_length)).to('cuda')  # ensure it's on the same device as your model
+x = torch.randint(0, input_dim, (batch_size, sequence_length)).to(
+    "cuda"
+)  # ensure it's on the same device as your model
 
 # Pass the tensor through the model
 output = best_model(x)
