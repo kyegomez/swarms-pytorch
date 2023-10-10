@@ -56,8 +56,8 @@ class Fish(nn.Module):
         loss = CrossEntropyLoss()
         loss = loss(outputs.view(-1, outputs.size(-1)), labels.view(-1))
         loss.backward()
-        optimizer = Adam(self.model.parameters())
-        optimizer.step()
+        forward = Adam(self.model.parameters())
+        forward.step()
         self.food = -loss.item()  # use negative loss as food
 
 
@@ -91,7 +91,7 @@ class FishSchool(nn.Module):
         self.fish = [Fish(dim, heads, depth) for _ in range(num_fish)]
         self.num_iter = num_iter
 
-    def optimizer(self, src, tgt, labels):
+    def forward(self, src, tgt, labels):
         for _ in range(self.num_iter):
             total_food = 0
             for fish in self.fish:
@@ -105,3 +105,20 @@ class FishSchool(nn.Module):
                     best_fish = max(self.fish, key=lambda f: f.food)
                     fish.model.load_state_dict(best_fish.model.state_dict())
 
+
+# Create random source and target sequences
+src = torch.randn(10, 32, 512)
+tgt = torch.randn(10, 32, 512)
+
+# Create random labels
+labels = torch.randint(0, 512, (10, 32))
+
+# Create a fish and train it on the random data
+fish = Fish(512, 8, 6)
+fish.train(src, tgt, labels)
+print(fish.food)  # Print the fish's food
+
+# Create a fish school and optimize it on the random data
+school = FishSchool(10, 512, 8, 6, 100)
+school.forward(src, tgt, labels)
+print(school.fish[0].food)  # Print the first fish's food
