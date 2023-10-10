@@ -16,7 +16,7 @@ class SimpleTransformer(nn.Module):
         return self.fc(x[-1])
 
 
-class ParticleSwarmOptimization:
+class TransformerParticleSwarmOptimization:
     def __init__(
         self,
         model_constructor,  # Function to create a new model instance
