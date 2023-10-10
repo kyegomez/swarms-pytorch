@@ -7,8 +7,7 @@ class SimpleTransformer(nn.Module):
     def __init__(self, input_dim, d_model, nhead, num_layers, output_dim):
         super(SimpleTransformer, self).__init__()
         self.embedding = nn.Embedding(input_dim, d_model)
-        self.transformer = nn.Transformer(
-            d_model, nhead, num_layers, num_layers)
+        self.transformer = nn.Transformer(d_model, nhead, num_layers, num_layers)
         self.fc = nn.Linear(d_model, output_dim)
 
     def forward(self, x):
@@ -42,11 +41,10 @@ class ParticleSwarmOptimization:
         self.global_best_weight = global_best_weight
 
         # Representing particles using model parameters
-        param_size = sum(p.numel()
-                         for p in model_constructor(*model_args).parameters())
+        param_size = sum(p.numel() for p in model_constructor(*model_args).parameters())
         self.particles = [
-            self.model_constructor(
-                *model_args).to(device) for _ in range(n_particles)]
+            self.model_constructor(*model_args).to(device) for _ in range(n_particles)
+        ]
         self.velocities = [
             torch.zeros((param_size,)).to(device) for _ in range(n_particles)
         ]
@@ -86,8 +84,7 @@ class ParticleSwarmOptimization:
                 ) + self.global_best_weight * torch.rand_like(param) * (
                     self.global_best[name].to(self.device) - param.data
                 )
-                self.velocities[idx] += self.inertia * \
-                    self.velocities[idx] + delta
+                self.velocities[idx] += self.inertia * self.velocities[idx] + delta
                 param.data += self.velocities[idx]
 
     def optimize(self, iterations=1000):
@@ -104,36 +101,36 @@ class ParticleSwarmOptimization:
         return best_model
 
 
-# Define model and optimization parameters
-input_dim = 1000
-d_model = 512
-nhead = 8
-num_layers = 3
-output_dim = 10
+# # Define model and optimization parameters
+# input_dim = 1000
+# d_model = 512
+# nhead = 8
+# num_layers = 3
+# output_dim = 10
 
-batch_size = 32
-sequence_length = 50
+# batch_size = 32
+# sequence_length = 50
 
-# Instantiate the optimizer
-pso = ParticleSwarmOptimization(
-    SimpleTransformer,
-    (input_dim, d_model, nhead, num_layers, output_dim),
-    device="cuda",  # or 'cpu'
-    criterion=nn.CrossEntropyLoss(),
-    # data_loader=your_dataloader  # replace with your dataloader
-)
+# # Instantiate the optimizer
+# pso = ParticleSwarmOptimization(
+#     SimpleTransformer,
+#     (input_dim, d_model, nhead, num_layers, output_dim),
+#     device="cuda",  # or 'cpu'
+#     criterion=nn.CrossEntropyLoss(),
+#     # data_loader=your_dataloader  # replace with your dataloader
+# )
 
-# Run optimization
-pso.optimize(iterations=100)
+# # Run optimization
+# pso.optimize(iterations=100)
 
-# Get the best model
-best_model = pso.get_best_model()
+# # Get the best model
+# best_model = pso.get_best_model()
 
-# Generate a random input tensor
-x = torch.randint(0, input_dim, (batch_size, sequence_length)).to(
-    "cuda"
-)  # ensure it's on the same device as your model
+# # Generate a random input tensor
+# x = torch.randint(0, input_dim, (batch_size, sequence_length)).to(
+#     "cuda"
+# )  # ensure it's on the same device as your model
 
-# Pass the tensor through the model
-output = best_model(x)
-print(output.shape)  # should be [batch_size, output_dim]
+# # Pass the tensor through the model
+# output = best_model(x)
+# print(output.shape)  # should be [batch_size, output_dim]

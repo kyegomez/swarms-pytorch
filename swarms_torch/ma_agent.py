@@ -27,8 +27,7 @@ class MAgent:
                 )
                 for _ in range(num_agents)
             ]
-            self.optimizers = [optim.Adam(agent.parameters())
-                               for agent in self.agents]
+            self.optimizers = [optim.Adam(agent.parameters()) for agent in self.agents]
 
         def step(self, agent_actions):
             rewards = []

@@ -12,5 +12,5 @@ __all__ = [
     "QueenBeeGa",
     "NNTransformer",
     "CellularSwarm",
-    "SPO"
+    "SPO",
 ]
