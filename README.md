@@ -101,6 +101,8 @@ print(school.fish[0].food)  # Print the first fish's food
 # Documentation
 - [Click here for documentation](https://swarmstorch.readthedocs.io/en/latest/swarms/)
 
+# Playground
+- There are various scripts in the playground folder with various examples for each swarm, like ant colony and fish school and spiral optimization.
 
 # Todo
 10 swarming neural network algorithms, with brief overviews, algorithmic pseudocode, and potential use cases for each:
