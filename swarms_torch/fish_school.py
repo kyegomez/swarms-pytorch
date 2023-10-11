@@ -1,6 +1,5 @@
-import torch
 from torch import nn
-from torch.nn import Transformer, CrossEntropyLoss
+from torch.nn import CrossEntropyLoss, Transformer
 from torch.optim import Adam
 
 
