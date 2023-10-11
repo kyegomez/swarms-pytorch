@@ -68,41 +68,61 @@ class Fish(nn.Module):
         dynamic_learning_rate=False,
         early_stopping=False,
         complexity_regularization=False,
+        max_patience=None,
+        alpha=0.1,
     ):
         super().__init__()
-        self.optimizer = Adam(self.parameters())
-
-        if self.dynamic_learning_rate:
-            self.scheduler = ReduceLROnPlateau(self.optimizer, "min")
-
         self.model = Transformer(
             d_model=dim, nhead=heads, num_encoder_layers=depth, num_decoder_layers=depth
         )
-        self.food = 0
+        self.optimizer = Adam(self.parameters())
+        self.scheduler = ReduceLROnPlateau(self.optimizer, "min")
 
-        if self.early_stopping:
-            self.best_food = float("inf")
-            self.patience = 0
+        self.complexity_regularization = complexity_regularization
+        self.dynamic_learning_rate = dynamic_learning_rate
+        self.early_stopping = early_stopping
+        self.food = 0
+        self.best_food = float("inf")
+        self.patience = 0
+        self.max_patience = max_patience
+        self.alpha = alpha
 
     def train(self, src, tgt, labels):
         """Trains the fish school"""
+        self.model.train()
+
+        self.optimizer.zero_grad()
+
         outputs = self.model(src, tgt)
 
-        loss = CrossEntropyLoss()
-        loss = loss(outputs.view(-1, outputs.size(-1)), labels.view(-1))
+        # cross entropy loss
+        loss = CrossEntropyLoss()(outputs.view(-1, outputs.size(-1)), labels.view(-1))
 
+        # complexity regularization by adding the sum of the squares of the weights
         if self.complexity_regularization:
-            loss = loss + alpha * sum(p.pow(2.0).sum() for p in self.model.parameters())
+            # complexity regularization
+            loss += self.alpha * sum(p.pow(2.0).sum() for p in self.model.parameters())
 
+        # backpropagation
         loss.backward()
 
+        # dynamic learning rate
         if self.dynamic_learning_rate:
             self.scheduler.step(loss)
         else:
             forward = self.optimizer
             forward.step()
 
-        self.food = -loss.item()  # use negative loss as food
+        # # use negative loss as food
+        self.food = -loss.item()
+
+        # early stopping if the fish is not improving
+        if self.early_stopping:
+            if loss < self.best_food:
+                self.best_food = loss
+                self.patience = 0
+            else:
+                self.patience += 1
 
     def forward(self, src, tgt):
         """Forward pass of the fish school"""
@@ -159,10 +179,21 @@ class FishSchool(nn.Module):
 
     """
 
-    def __init__(self, num_fish, dim, heads, depth, num_iter):
+    def __init__(
+        self,
+        num_fish,
+        dim,
+        heads,
+        depth,
+        num_iter,
+        num_top_fish=None,
+        complex_school=False,
+    ):
         super().__init__()
         self.fish = [Fish(dim, heads, depth) for _ in range(num_fish)]
         self.num_iter = num_iter
+        self.num_top_fish = num_top_fish
+        self.complex_school = complex_school
 
     def forward(self, src, tgt, labels):
         for _ in range(self.num_iter):
@@ -172,6 +203,15 @@ class FishSchool(nn.Module):
                 total_food += fish.food
             # adjust schoold behavior on total food
             avg_food = total_food / len(self.fish)
+
+            # complex school behavior => fish with lower food learn from fish with higher food
+            if self.complex_school:
+                for fish in self.fish:
+                    neighbor = self.fish[torch.randint(0, len(self.fish), (1,)).item()]
+                    if neighbor.food > fish.food:
+                        fish.model.load_state_dict(neighbor.model.state_dict())
+
+            # adjust schoold behavior on average food
             for fish in self.fish:
                 if fish.food < avg_food:
                     # transformer weights from the best performing fish
@@ -183,35 +223,38 @@ class FishSchool(nn.Module):
         Generate a sequence using the fish school's model.
         """
         return self.fish[0].generate(src, tgt)
-    
+
     def predict(self, src, tgt):
         """
         Ensemble learning => enseble prediction of top performing models
 
         averages outputs of the top peforming models
         """
-        top_fish = sorted(
-            self.fish,
-            key=lambda f: f.food, 
-            reverse=True
-        )[:num_top_fish]
-        outputs = [fish.model(src, tgt) for fish in top_fish]
+        top_fish = sorted(self.fish, key=lambda f: f.food, reverse=True)[
+            : self.num_top_fish
+        ]
+
+        self.model.eval()
+
+        with torch.no_grad():
+            outputs = torch.stack([fish.model(src, tgt) for fish in top_fish])
+
         return sum(outputs) / len(outputs)
-    
+
     def save(self, path):
         """
         Save the fish school's models.
         """
         for i, fish in enumerate(self.fish):
             fish.save(path + f"fish_{i}.pt")
-        
+
     def load(self, path):
         """
         Load the fish school's models.
         """
         for i, fish in enumerate(self.fish):
             fish.model.load_state_dict(torch.load(path + f"fish_{i}.pt"))
-    
+
     def early_stopping(self):
         """
         Early stopping if the fish school is not improving.
@@ -220,14 +263,14 @@ class FishSchool(nn.Module):
             if fish.early_stopping(fish.food):
                 return True
         return False
-    
+
     def dynamic_learning_rate(self):
         """
         Dynamic learning rate for the fish school.
         """
         for fish in self.fish:
             fish.dynamic_learning_rate = True
-    
+
     def complexity_regularization(self):
         """
         Complexity regularization for the fish school.
@@ -241,23 +284,23 @@ class FishSchool(nn.Module):
         """
         for fish in self.fish:
             fish.food = 0
-    
+
     def __getitem__(self, index):
         """Get the fish at the given index"""
         return self.fish[index]
-    
+
     def __len__(self):
         """Get the number of fish in the school"""
         return len(self.fish)
-    
+
     def __iter__(self):
         """Iterate over the fish in the school"""
         return iter(self.fish)
-    
+
     def __next__(self):
         """Get the next fish in the school"""
         return next(self.fish)
-    
+
     def __str__(self):
         """Get the string representation of the fish school"""
         return str(self.fish)
