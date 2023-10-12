@@ -17,7 +17,7 @@ class MultiSwarmPSO:
         The number of particles per sub-swarm
     max_iterations : int
         The maximum number of iterations to run the algorithm
-    
+
     Attributes
     ----------
     target_string : str
@@ -30,7 +30,7 @@ class MultiSwarmPSO:
         The number of dimensions in the search space
     max_iterations : int
         The maximum number of iterations to run the algorithm
-    
+
     Methods
     -------
     generate_random_string()
@@ -56,6 +56,7 @@ class MultiSwarmPSO:
 
 
     """
+
     def __init__(
         self,
         target_string,
@@ -148,5 +149,5 @@ class MultiSwarmPSO:
 # Example usage
 if __name__ == "__main__":
     target_string = "hello world"
-    multi_swarm = MultiSwarm(target_string)
+    multi_swarm = MultiSwarmPSO(target_string)
     multi_swarm.optimize()

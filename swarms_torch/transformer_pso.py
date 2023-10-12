@@ -3,7 +3,7 @@ import torch.nn as nn
 from copy import deepcopy
 
 
-class SimpleTransformer(nn.Module):
+class Particle(nn.Module):
     """
     Simple Transformer model for classification.
 
@@ -28,7 +28,7 @@ class SimpleTransformer(nn.Module):
     """
 
     def __init__(self, input_dim, d_model, nhead, num_layers, output_dim):
-        super(SimpleTransformer, self).__init__()
+        super(Particle, self).__init__()
         self.embedding = nn.Embedding(input_dim, d_model)
         self.transformer = nn.Transformer(d_model, nhead, num_layers, num_layers)
         self.fc = nn.Linear(d_model, output_dim)
@@ -43,7 +43,7 @@ class SimpleTransformer(nn.Module):
         return self.fc(x[-1])
 
 
-class TransformerParticleSwarmOptimization:
+class TransformerParticleSwarmOptimization(nn.Module):
     """
     Transformer Particle Swarm Optimization.
 
@@ -91,6 +91,7 @@ class TransformerParticleSwarmOptimization:
         personal_best_weight=1.5,
         global_best_weight=1.5,
     ):
+        super(TransformerParticleSwarmOptimization, self).__init__()
         self.model_constructor = model_constructor
         self.model_args = model_args
         self.criterion = criterion

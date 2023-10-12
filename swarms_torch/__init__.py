@@ -5,6 +5,9 @@ from swarms_torch.neuronal_transformer import NNTransformer
 from swarms_torch.particle_swarm import ParticleSwarmOptimization
 from swarms_torch.queen_bee import QueenBeeGa
 from swarms_torch.spiral_optimization import SPO
+from swarms_torch.multi_swarm_pso import MultiSwarmPSO
+from swarms_torch.transformer_pso import Particle, TransformerParticleSwarmOptimization
+
 
 __all__ = [
     "ParticleSwarmOptimization",
@@ -15,4 +18,7 @@ __all__ = [
     "SPO",
     "Fish",
     "FishSchool",
+    "MultiSwarmPSO",
+    "Particle",
+    "TransformerParticleSwarmOptimization",
 ]
