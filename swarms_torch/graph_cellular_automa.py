@@ -36,8 +36,9 @@ class WeightUpdateModel(nn.Module):
         super(WeightUpdateModel, self).__init__()
 
         self.mlp = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim), nn.ReLU(), nn.Linear(hidden_dim, 1)
-        )
+            nn.Linear(
+                input_dim, hidden_dim), nn.ReLU(), nn.Linear(
+                hidden_dim, 1))
 
     def forward(self, x):
         return self.mlp(x)
@@ -51,7 +52,8 @@ class NDP(nn.Module):
             embedding_dim, hidden_dim, embedding_dim
         )
         self.replication_model = ReplicationModel(embedding_dim, hidden_dim)
-        self.weight_update_model = WeightUpdateModel(2 * embedding_dim, hidden_dim)
+        self.weight_update_model = WeightUpdateModel(
+            2 * embedding_dim, hidden_dim)
 
     def forward(self, node_embeddings, adjacency_matrix):
         # Update node embeddings using Graph Cellular Automata
@@ -70,7 +72,8 @@ class NDP(nn.Module):
                     (updated_embeddings[i], updated_embeddings[j])
                 )
 
-                edge_weights[i, j] = self.weight_update_model(combined_embedding)
+                edge_weights[i, j] = self.weight_update_model(
+                    combined_embedding)
 
         return updated_embeddings, replication_decisions, edge_weights
 

@@ -47,7 +47,8 @@ def align_right(t, lens, pad_id=0):
     pad_lens = seq_len - lens
     max_pad_len = pad_lens.amax()
 
-    batch_arange = torch.arange(batch, device=device, dtype=torch.long)[..., None]
+    batch_arange = torch.arange(
+        batch, device=device, dtype=torch.long)[..., None]
     prompt_len_arange = torch.arange(seq_len, device=device, dtype=torch.long)
 
     t = F.pad(t, (max_pad_len, 0), value=0)
@@ -65,7 +66,8 @@ def top_p(logits, thres=0.9):
     cum_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1)
 
     sorted_indices_to_remove = cum_probs > thres
-    sorted_indices_to_remove = F.pad(sorted_indices_to_remove, (1, -1), value=False)
+    sorted_indices_to_remove = F.pad(
+        sorted_indices_to_remove, (1, -1), value=False)
 
     sorted_logits[sorted_indices_to_remove] = float("-inf")
     return sorted_logits.scatter(1, sorted_indices, sorted_logits)
@@ -118,8 +120,12 @@ def contrastive_decode_fn(expert_logits, amateur_logits, alpha=0.1, beta=0.5):
 
 class AutoregressiveWrapper(Module):
     def __init__(
-        self, net, ignore_index=-100, pad_value=0, mask_prob=0.0, add_attn_z_loss=False
-    ):
+            self,
+            net,
+            ignore_index=-100,
+            pad_value=0,
+            mask_prob=0.0,
+            add_attn_z_loss=False):
         super().__init__()
         self.pad_value = pad_value
         self.ignore_index = ignore_index
@@ -127,7 +133,9 @@ class AutoregressiveWrapper(Module):
         self.net = net
         self.max_seq_len = net.max_seq_len
 
-        # paper shows masking (MLM) in conjunction with autoregressive decoder-only training leads to big improvements https://arxiv.org/abs/2210.13432
+        # paper shows masking (MLM) in conjunction with autoregressive
+        # decoder-only training leads to big improvements
+        # https://arxiv.org/abs/2210.13432
         assert mask_prob < 1.0
         self.mask_prob = mask_prob
 
@@ -198,7 +206,7 @@ class AutoregressiveWrapper(Module):
                 if exists(cache):
                     for inter in cache.attn_intermediates:
                         inter.cached_kv = [
-                            t[..., -(max_seq_len - 1) :, :] for t in inter.cached_kv
+                            t[..., -(max_seq_len - 1):, :] for t in inter.cached_kv
                         ]
 
             logits, new_cache = self.net(
@@ -239,8 +247,7 @@ class AutoregressiveWrapper(Module):
                         amateur_logits.shape == logits.shape
                     ), "logits dimension are not the same between amateur and expert model"
                     logits = contrastive_decode_fn(
-                        logits, amateur_logits, **amateur_contrastive_decode_kwargs
-                    )
+                        logits, amateur_logits, **amateur_contrastive_decode_kwargs)
 
                     if cache_kv and amateur.can_cache_kv:
                         amateur_caches[i] = next_amateur_cache
@@ -292,12 +299,14 @@ class AutoregressiveWrapper(Module):
             kwargs.update(self_attn_kv_mask=mask)
 
         logits, cache = self.net(
-            inp, return_intermediates=True, return_attn_z_loss=add_attn_z_loss, **kwargs
-        )
+            inp, return_intermediates=True, return_attn_z_loss=add_attn_z_loss, **kwargs)
 
         loss = F.cross_entropy(
-            rearrange(logits, "b n c -> b c n"), target, ignore_index=ignore_index
-        )
+            rearrange(
+                logits,
+                "b n c -> b c n"),
+            target,
+            ignore_index=ignore_index)
 
         if add_attn_z_loss:
             loss = loss + cache.attn_z_loss

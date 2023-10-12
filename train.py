@@ -9,6 +9,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader, Dataset
 from swarms_torch.fish_school import FishSchool
 from swarms_torch.autoregressive import AutoregressiveWrapper
+
 # constants
 
 NUM_BATCHES = int(1e5)
@@ -37,9 +38,9 @@ def decode_tokens(tokens):
     return "".join(list(map(decode_token, tokens)))
 
 
-#init model
+# init model
 model = FishSchool(10, 512, 8, 6, 100)
-model = AutoregressiveWrapper(model) 
+model = AutoregressiveWrapper(model)
 
 # model = AutoregressiveWrapper(model)
 # model.cuda()

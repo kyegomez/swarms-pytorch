@@ -130,4 +130,5 @@ class ParticleSwarmOptimization:
         for _ in range(iterations):
             self.update()
             best_particle = self.global_best
-            print("Best Particle: ", "".join([chr(int(i)) for i in best_particle]))
+            print("Best Particle: ", "".join(
+                [chr(int(i)) for i in best_particle]))
