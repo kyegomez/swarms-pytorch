@@ -247,5 +247,11 @@ print(school.fish[0].food)  # Print the first fish's food
         ```
     - **Use Cases**: Job scheduling, clustering, neural network training.
 
+- make training script ready for fish school with autoregressive,
+- practical examples of training models and conduct interence
+- upload to huggingface a small model
+- train fish school, neural transformer, and pso transformer, 
+
+
 # License
 MIT
