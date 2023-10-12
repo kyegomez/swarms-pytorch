@@ -4,6 +4,28 @@ from copy import deepcopy
 
 
 class SimpleTransformer(nn.Module):
+    """
+    Simple Transformer model for classification.
+
+    Parameters
+    ----------
+    input_dim : int
+        The number of expected features in the input (required).
+    d_model : int
+        The number of expected features in the encoder/decoder inputs (required).
+    nhead : int
+        The number of heads in the multiheadattention models (required).
+    num_layers : int
+        The number of sub-encoder-layers in the encoder (required).
+    output_dim : int
+        The number of classes to predict (required).
+    
+    Usage:
+    >>> model = SimpleTransformer(1000, 512, 8, 6, 10)
+    >>> model(x)
+
+    
+    """
     def __init__(self, input_dim, d_model, nhead, num_layers, output_dim):
         super(SimpleTransformer, self).__init__()
         self.embedding = nn.Embedding(input_dim, d_model)
@@ -12,12 +34,50 @@ class SimpleTransformer(nn.Module):
         self.fc = nn.Linear(d_model, output_dim)
 
     def forward(self, x):
+        """
+        Forward pass through the model.
+
+        """
         x = self.embedding(x)
         x = self.transformer(x, x)
         return self.fc(x[-1])
 
 
 class TransformerParticleSwarmOptimization:
+    """
+    Transformer Particle Swarm Optimization.
+
+    Parameters
+    ----------
+    model_constructor : function
+        Function to create a new model instance.
+    model_args : tuple
+        Arguments for the model constructor.
+    device : str
+        'cuda' or 'cpu'.
+    criterion : nn.Module
+        Loss function.
+    data_loader : torch.utils.data.DataLoader
+        Data loader.
+    n_particles : int
+        Number of particles.
+    inertia : float
+        Inertia weight.
+    personal_best_weight : float
+        Personal best weight.
+    global_best_weight : float
+        Global best weight.
+    
+    Usage:
+    >>> pso = TransformerParticleSwarmOptimization(
+    ...     SimpleTransformer,
+    ...     (1000, 512, 8, 6, 10),
+    ...     device="cuda",
+    ...     criterion=nn.CrossEntropyLoss(),
+    ...     data_loader=your_dataloader
+    ... )
+    
+    """
     def __init__(
         self,
         model_constructor,  # Function to create a new model instance
@@ -54,6 +114,9 @@ class TransformerParticleSwarmOptimization:
         self.global_best = deepcopy(self.particles[0].state_dict())
 
     def compute_fitness(self, model_state):
+        """
+        Compute the fitness of a model.
+        """
         model = self.model_constructor(*self.model_args).to(self.device)
         model.load_state_dict(model_state)
         model.eval()
@@ -67,6 +130,9 @@ class TransformerParticleSwarmOptimization:
         return 1.0 / (1.0 + total_loss)
 
     def update(self):
+        """
+        Update particles.
+        """
         # Update particles
         for idx, particle in enumerate(self.particles):
             fitness = self.compute_fitness(particle.state_dict())
@@ -91,6 +157,7 @@ class TransformerParticleSwarmOptimization:
                 param.data += self.velocities[idx]
 
     def optimize(self, iterations=1000):
+        """Optimize the model."""
         for _ in range(iterations):
             self.update()
             best_particle_score = self.compute_fitness(self.global_best)
@@ -99,6 +166,7 @@ class TransformerParticleSwarmOptimization:
             )
 
     def get_best_model(self):
+        """Get the best model."""
         best_model = self.model_constructor(*self.model_args).to(self.device)
         best_model.load_state_dict(self.global_best)
         return best_model
