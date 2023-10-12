@@ -19,18 +19,18 @@ class SimpleTransformer(nn.Module):
         The number of sub-encoder-layers in the encoder (required).
     output_dim : int
         The number of classes to predict (required).
-    
+
     Usage:
     >>> model = SimpleTransformer(1000, 512, 8, 6, 10)
     >>> model(x)
 
-    
+
     """
+
     def __init__(self, input_dim, d_model, nhead, num_layers, output_dim):
         super(SimpleTransformer, self).__init__()
         self.embedding = nn.Embedding(input_dim, d_model)
-        self.transformer = nn.Transformer(
-            d_model, nhead, num_layers, num_layers)
+        self.transformer = nn.Transformer(d_model, nhead, num_layers, num_layers)
         self.fc = nn.Linear(d_model, output_dim)
 
     def forward(self, x):
@@ -67,7 +67,7 @@ class TransformerParticleSwarmOptimization:
         Personal best weight.
     global_best_weight : float
         Global best weight.
-    
+
     Usage:
     >>> pso = TransformerParticleSwarmOptimization(
     ...     SimpleTransformer,
@@ -76,8 +76,9 @@ class TransformerParticleSwarmOptimization:
     ...     criterion=nn.CrossEntropyLoss(),
     ...     data_loader=your_dataloader
     ... )
-    
+
     """
+
     def __init__(
         self,
         model_constructor,  # Function to create a new model instance
@@ -102,11 +103,10 @@ class TransformerParticleSwarmOptimization:
         self.global_best_weight = global_best_weight
 
         # Representing particles using model parameters
-        param_size = sum(p.numel()
-                         for p in model_constructor(*model_args).parameters())
+        param_size = sum(p.numel() for p in model_constructor(*model_args).parameters())
         self.particles = [
-            self.model_constructor(
-                *model_args).to(device) for _ in range(n_particles)]
+            self.model_constructor(*model_args).to(device) for _ in range(n_particles)
+        ]
         self.velocities = [
             torch.zeros((param_size,)).to(device) for _ in range(n_particles)
         ]
@@ -152,8 +152,7 @@ class TransformerParticleSwarmOptimization:
                 ) + self.global_best_weight * torch.rand_like(param) * (
                     self.global_best[name].to(self.device) - param.data
                 )
-                self.velocities[idx] += self.inertia * \
-                    self.velocities[idx] + delta
+                self.velocities[idx] += self.inertia * self.velocities[idx] + delta
                 param.data += self.velocities[idx]
 
     def optimize(self, iterations=1000):

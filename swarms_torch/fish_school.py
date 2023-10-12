@@ -73,10 +73,8 @@ class Fish(nn.Module):
     ):
         super().__init__()
         self.model = Transformer(
-            d_model=dim,
-            nhead=heads,
-            num_encoder_layers=depth,
-            num_decoder_layers=depth)
+            d_model=dim, nhead=heads, num_encoder_layers=depth, num_decoder_layers=depth
+        )
         self.optimizer = Adam(self.parameters())
         self.scheduler = ReduceLROnPlateau(self.optimizer, "min")
 
@@ -104,8 +102,7 @@ class Fish(nn.Module):
         # weights
         if self.complexity_regularization:
             # complexity regularization
-            loss += self.alpha * sum(p.pow(2.0).sum()
-                                     for p in self.model.parameters())
+            loss += self.alpha * sum(p.pow(2.0).sum() for p in self.model.parameters())
 
         # backpropagation
         loss.backward()
@@ -192,12 +189,15 @@ class FishSchool(nn.Module):
         num_iter,
         num_top_fish=None,
         complex_school=False,
+        max_seq_len = 8192,
     ):
         super().__init__()
         self.fish = [Fish(dim, heads, depth) for _ in range(num_fish)]
         self.num_iter = num_iter
         self.num_top_fish = num_top_fish
         self.complex_school = complex_school
+        self.max_seq_len = max_seq_len
+
 
     def forward(self, src, tgt, labels):
         for _ in range(self.num_iter):
@@ -212,8 +212,7 @@ class FishSchool(nn.Module):
             # with higher food
             if self.complex_school:
                 for fish in self.fish:
-                    neighbor = self.fish[torch.randint(
-                        0, len(self.fish), (1,)).item()]
+                    neighbor = self.fish[torch.randint(0, len(self.fish), (1,)).item()]
                     if neighbor.food > fish.food:
                         fish.model.load_state_dict(neighbor.model.state_dict())
 
