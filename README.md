@@ -25,8 +25,9 @@ pip3 install swarms-torch
 ```python
 from swarms_torch import ParticleSwarmOptimization
 
-#test
+
 pso = ParticleSwarmOptimization(goal="Attention is all you need", n_particles=100)
+
 pso.optimize(iterations=1000)
 ```
 
@@ -50,19 +51,10 @@ from swarms_torch.nnt import NNTransformer
 x = torch.randn(1, 10)
 
 network = NNTransformer(
-    #transformer cells
     neuron_count = 5, 
-    
-    #num states
     num_states = 10,
-
-    #input dim
     input_dim = 10,
-
-    #output dim
     output_dim = 10,
-
-    #nhead
     nhead = 2,
 )
 output = network(x)
@@ -137,7 +129,7 @@ visualize_swarmalators(xi)
 - practical examples of training models and conduct interence
 - upload to huggingface a small model
 - train fish school, neural transformer, and pso transformer, 
-
+- Create hivemind model for robotics, 1 model that takes in X inputs from N robots and distributes tasks to individual or many robots
 
 # License
 MIT
