@@ -19,7 +19,8 @@ pip3 install swarms-torch
 ```
 
 # Usage
-- We have just PSO now, but we're adding in ant colony and others!
+
+# ParticleSwarmOptimization
 
 ```python
 from swarms_torch import ParticleSwarmOptimization
@@ -41,7 +42,7 @@ print("Best Matched String:", best_solution)
 
 ```
 
-- Neural Network with Transformers as synapases LMAO.
+### Neural Network with Transformers as synapases
 ```python
 import torch
 from swarms_torch.nnt import NNTransformer
@@ -68,7 +69,8 @@ output = network(x)
 print(output)
 ```
 
-- CellularSwarm, a Cellular Neural Net with transformers as cells, time simulation, and a local neighboorhood!
+### CellularSwarm
+a Cellular Neural Net with transformers as cells, time simulation, and a local neighboorhood!
 
 ```python
 from swarms_torch import CellularSwarm 
@@ -78,8 +80,8 @@ model = CellularSwarm(cell_count=5, input_dim=512, nhead=8)
 output = model(x)
 
 ```
-
-- Fish School/Sakana is an all-new innovative approaches to machine learning that leverage the power of the Transformer model architecture. These systems are designed to mimic the behavior of a school of fish, where each fish represents an individual Transformer model. The goal is to optimize the performance of the entire school by learning from the best-performing fish.
+### Fish School/Sakana
+- An all-new innovative approaches to machine learning that leverage the power of the Transformer model architecture. These systems are designed to mimic the behavior of a school of fish, where each fish represents an individual Transformer model. The goal is to optimize the performance of the entire school by learning from the best-performing fish.
 
 ```python
 import torch
@@ -101,6 +103,25 @@ print(fish.food)  # Print the fish's food
 school = FishSchool(10, 512, 8, 6, 100)
 school.forward(src, tgt, labels)
 print(school.fish[0].food)  # Print the first fish's food
+
+```
+
+### Swarmalators
+```python
+from swarms_torch import visualize_swarmalators, simulate_swarmalators
+
+# Init for Swarmalator
+# Example usage:
+N = 100
+J, alpha, beta, gamma, epsilon_a, epsilon_r, R = [0.1] * 7
+D = 3  # Ensure D is an integer
+xi, sigma_i = simulate_swarmalators(
+    N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+)
+
+
+# Call the visualization function
+visualize_swarmalators(xi)
 
 ```
 
