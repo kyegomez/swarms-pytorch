@@ -59,16 +59,16 @@ def rosenbrock(x, a=1, b=100):
     return (a - x[0]) ** 2 + b * (x[1] - x[0] ** 2) ** 2
 
 
-num_swarms = 5
-num_particles = 20
-dim = 2
-minx = -5
-maxx = 5
-max_iter = 100
+# num_swarms = 5
+# num_particles = 20
+# dim = 2
+# minx = -5
+# maxx = 5
+# max_iter = 100
 
-multi_swarm = MultiSwarm(num_swarms, num_particles, dim, minx, maxx)
+# multi_swarm = MultiSwarm(num_swarms, num_particles, dim, minx, maxx)
 
-best_position, best_score = multi_swarm.optimize(rosenbrock, max_iter)
+# best_position, best_score = multi_swarm.optimize(rosenbrock, max_iter)
 
-print(f"Best position: {best_position}")
-print(f"Best score: {best_score}")
+# print(f"Best position: {best_position}")
+# print(f"Best score: {best_score}")
