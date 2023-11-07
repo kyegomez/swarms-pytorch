@@ -1,5 +1,4 @@
 """
-
 Cellular neural network
 
 Architecture:
