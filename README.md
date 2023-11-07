@@ -20,7 +20,7 @@ pip3 install swarms-torch
 
 # Usage
 
-# ParticleSwarmOptimization
+### ParticleSwarmOptimization
 
 ```python
 from swarms_torch import ParticleSwarmOptimization
@@ -30,7 +30,7 @@ pso = ParticleSwarmOptimization(goal="Attention is all you need", n_particles=10
 pso.optimize(iterations=1000)
 ```
 
-- Ant Colony Optimization
+### Ant Colony Optimization
 ```python
 from swarms_torch.ant_colony_swarm import AntColonyOptimization
 
