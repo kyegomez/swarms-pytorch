@@ -130,6 +130,10 @@ visualize_swarmalators(xi)
 - upload to huggingface a small model
 - train fish school, neural transformer, and pso transformer, 
 - Create hivemind model for robotics, 1 model that takes in X inputs from N robots and distributes tasks to individual or many robots
+- Swarm of liquid nets for text sequence modeling or vision
+- Swarm of Convnets for facial recognition?
+- Swarm of transformers where each transformer is an expert and they all share the same weights so they can see each others knowledge, but inference is local.
+
 
 # License
 MIT
