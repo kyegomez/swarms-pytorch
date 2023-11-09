@@ -2,6 +2,7 @@ import torch
 
 
 class Particle:
+
     def __init__(self, dim, minx, maxx):
         self.position = torch.rand(dim) * (maxx - minx) + minx
         self.velocity = torch.rand(dim) * (maxx - minx) + minx
@@ -11,11 +12,9 @@ class Particle:
     def update_velocity(self, global_best, w=0.7, c1=1.5, c2=1.5):
         r1 = torch.rand(self.position.size())
         r2 = torch.rand(self.position.size())
-        self.velocity = (
-            w * self.velocity
-            + c1 * r1 * (self.best_position - self.position)
-            + c2 * r2 * (global_best - self.position)
-        )
+        self.velocity = (w * self.velocity + c1 * r1 *
+                         (self.best_position - self.position) + c2 * r2 *
+                         (global_best - self.position))
 
     def update_position(self, minx, maxx):
         self.position += self.velocity
@@ -23,8 +22,11 @@ class Particle:
 
 
 class Swarm:
+
     def __init__(self, num_particles, dim, minx, maxx):
-        self.particles = [Particle(dim, minx, maxx) for _ in range(num_particles)]
+        self.particles = [
+            Particle(dim, minx, maxx) for _ in range(num_particles)
+        ]
         self.global_best = None
         self.global_best_score = float("inf")
 
@@ -41,8 +43,11 @@ class Swarm:
 
 
 class MultiSwarm:
+
     def __init__(self, num_swarms, num_particles, dim, minx, maxx):
-        self.swarms = [Swarm(num_particles, dim, minx, maxx) for _ in range(num_swarms)]
+        self.swarms = [
+            Swarm(num_particles, dim, minx, maxx) for _ in range(num_swarms)
+        ]
         self.minx = minx
         self.maxx = maxx
 
@@ -56,7 +61,7 @@ class MultiSwarm:
 
 
 def rosenbrock(x, a=1, b=100):
-    return (a - x[0]) ** 2 + b * (x[1] - x[0] ** 2) ** 2
+    return (a - x[0])**2 + b * (x[1] - x[0]**2)**2
 
 
 # num_swarms = 5

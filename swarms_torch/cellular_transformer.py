@@ -3,6 +3,7 @@ from torch import nn
 
 
 class TransformerCell(nn.Module):
+
     def __init__(
         self,
         input_dim,
@@ -11,9 +12,9 @@ class TransformerCell(nn.Module):
         neighborhood_size=3,
     ):
         super(TransformerCell, self).__init__()
-        self.transformer = nn.Transformer(
-            input_dim, nhead=nhead, num_encoder_layers=num_layers
-        )
+        self.transformer = nn.Transformer(input_dim,
+                                          nhead=nhead,
+                                          num_encoder_layers=num_layers)
         self.neighborhood_size = neighborhood_size
 
     def forward(self, x, neigbors):
@@ -56,8 +57,7 @@ class CellularSwarm(nn.Module):
     def __init__(self, cell_count, input_dim, nhead, time_steps=4):
         super(CellularSwarm, self).__init__()
         self.cells = nn.ModuleList(
-            [TransformerCell(input_dim, nhead) for _ in range(cell_count)]
-        )
+            [TransformerCell(input_dim, nhead) for _ in range(cell_count)])
         self.time_steps = time_steps
 
     def forward(self, x):

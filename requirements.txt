@@ -1,3 +1,14 @@
+torch
+einops
+pandas
+
+
+
+
+
+
+
+
 mkdocs
 mkdocs-material
 mkdocs-glightbox

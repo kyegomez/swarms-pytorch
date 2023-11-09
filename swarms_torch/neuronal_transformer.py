@@ -49,12 +49,14 @@ class TransformerLayer(nn.Module):
 
 
 class Neuron(nn.Module):
+
     def __init__(self, num_states):
         super(Neuron, self).__init__()
         self.states = nn.Parameter(torch.randn(num_states))
 
 
 class SynapseTransformer(nn.Module):
+
     def __init__(self, input_dim, output_dim, nhead: int):
         super(SynapseTransformer, self).__init__()
         self.transformer = TransformerLayer(input_dim, output_dim, nhead)
@@ -152,13 +154,12 @@ class NNTransformer(nn.Module):
         super(NNTransformer, self).__init__()
 
         # Initialize neurons and synapses
-        self.neurons = nn.ModuleList([Neuron(num_states) for _ in range(neuron_count)])
-        self.synapses = nn.ModuleList(
-            [
-                SynapseTransformer(input_dim, output_dim, nhead)
-                for _ in range(neuron_count)
-            ]
-        )
+        self.neurons = nn.ModuleList(
+            [Neuron(num_states) for _ in range(neuron_count)])
+        self.synapses = nn.ModuleList([
+            SynapseTransformer(input_dim, output_dim, nhead)
+            for _ in range(neuron_count)
+        ])
 
         self.norm = nn.LayerNorm(output_dim)
         self.softmax = nn.Softmax(dim=1)

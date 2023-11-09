@@ -5,6 +5,7 @@ from swarms_torch import ParticleSwarmOptimization  # Import your class here
 
 
 class TestParticleSwarmOptimization(unittest.TestCase):
+
     def setUp(self):
         self.pso = ParticleSwarmOptimization(goal="Hello", n_particles=10)
 
@@ -29,11 +30,9 @@ class TestParticleSwarmOptimization(unittest.TestCase):
         self.pso.optimize(iterations=10)
         # After optimization, global best should be closer to the goal
         initial_distance = torch.norm(
-            (initial_best_particle - self.pso.goal).float()
-        ).item()
+            (initial_best_particle - self.pso.goal).float()).item()
         final_distance = torch.norm(
-            (self.pso.global_best - self.pso.goal).float()
-        ).item()
+            (self.pso.global_best - self.pso.goal).float()).item()
         self.assertLess(final_distance, initial_distance)
 
 

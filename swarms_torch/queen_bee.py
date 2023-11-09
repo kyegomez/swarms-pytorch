@@ -113,7 +113,9 @@ class QueenBeeGa:
         # Display every generation
         if self.queen is not None:
             print("queen:")
-            print(f"{self.decode(self.queen)} ({self.queen_fitness.item():.3f})\n")
+            print(
+                f"{self.decode(self.queen)} ({self.queen_fitness.item():.3f})\n"
+            )
         for gene, fitness in zip(self.pool, fitnesses):
             print(f"{self.decode(gene)} ({fitness.item():.3f})")
 
@@ -130,45 +132,41 @@ class QueenBeeGa:
             self.queen_fitness, fitnesses = fitnesses[0], fitnesses[1:]
 
         # Deterministic tournament selection
-        contender_ids = torch.randn((self.pop_size - 1, self.pop_size - 1)).argsort(
-            dim=-1
-        )[..., : self.num_tournament_participants]
-        participants, tournaments = self.pool[contender_ids], fitnesses[contender_ids]
-        top_winner = tournaments.topk(1, dim=-1, largest=True, sorted=False).indices
+        contender_ids = torch.randn(
+            (self.pop_size - 1, self.pop_size -
+             1)).argsort(dim=-1)[..., :self.num_tournament_participants]
+        participants, tournaments = self.pool[contender_ids], fitnesses[
+            contender_ids]
+        top_winner = tournaments.topk(1, dim=-1, largest=True,
+                                      sorted=False).indices
         top_winner = top_winner.unsqueeze(-1).expand(-1, -1, self.gene_length)
         parents = participants.gather(1, top_winner).squeeze(1)
 
         # Cross over all chosen drones with the queen
-        queen_parents = self.queen.unsqueeze(0).expand(
-            self.pop_size - 1, self.gene_length
-        )
+        queen_parents = self.queen.unsqueeze(0).expand(self.pop_size - 1,
+                                                       self.gene_length)
         self.pool = torch.cat(
-            (queen_parents[:, : self.gene_midpoint], parents[:, self.gene_midpoint :]),
+            (queen_parents[:, :self.gene_midpoint],
+             parents[:, self.gene_midpoint:]),
             dim=-1,
         )
 
         # Mutate genes in population
-        mutate_mask = (
-            torch.randn(self.pool.shape).argsort(dim=-1) < self.num_code_mutate
-        )
+        mutate_mask = (torch.randn(self.pool.shape).argsort(dim=-1) <
+                       self.num_code_mutate)
         noise = torch.randint(0, 2, self.pool.shape) * 2 - 1
         mutated_pool = torch.where(mutate_mask, self.pool + noise, self.pool)
 
-        strong_mutate_mask = (
-            torch.randn(self.pool.shape).argsort(dim=-1) < self.strong_num_code_mutate
-        )
+        strong_mutate_mask = (torch.randn(self.pool.shape).argsort(dim=-1) <
+                              self.strong_num_code_mutate)
         noise = torch.randint(0, 2, self.pool.shape) * 2 - 1
-        strong_mutated_pool = torch.where(
-            strong_mutate_mask, self.pool + noise, self.pool
-        )
+        strong_mutated_pool = torch.where(strong_mutate_mask, self.pool + noise,
+                                          self.pool)
 
-        strong_mutate_pool_mask = (
-            torch.randn(self.pop_size - 1).argsort(dim=-1)
-            < self.strong_mutate_pool_size
-        )
-        self.pool = torch.where(
-            strong_mutate_pool_mask[:, None], strong_mutated_pool, mutated_pool
-        )
+        strong_mutate_pool_mask = (torch.randn(self.pop_size - 1).argsort(
+            dim=-1) < self.strong_mutate_pool_size)
+        self.pool = torch.where(strong_mutate_pool_mask[:, None],
+                                strong_mutated_pool, mutated_pool)
         self.pool.clamp_(0, 255)
 
     def _check_convergence(self):

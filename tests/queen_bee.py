@@ -4,6 +4,7 @@ from swarms_torch.queen_bee import QueenBeeGa  # Import the class
 
 
 class TestQueenBeeGa(unittest.TestCase):
+
     def setUp(self):
         self.optimizer = QueenBeeGa(goal="Hello QBGA", pop_size=50)
 

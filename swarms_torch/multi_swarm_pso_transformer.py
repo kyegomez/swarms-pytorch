@@ -3,7 +3,6 @@
 # from copy import deepcopy
 # from swarms_torch.transformer_pso import Particle, TransformerParticleSwarmOptimization
 
-
 # class MultiSwarm(nn.Module):
 #     def __init__(
 #         self,
@@ -41,7 +40,6 @@
 #     def handle_collision(self, idx1, idx2):
 #         #for simplicity re init 2nd swarm
 #         self.swarms[idx2] = TransformerParticleSwarmOptimization(*self.swarms[idx2].model_args, **self.swarms[idx2].kwargs)
-
 
 # import torch
 # from torch.utils.data import DataLoader, TensorDataset
@@ -84,6 +82,7 @@ from copy import deepcopy
 
 
 class Particle(nn.Module):
+
     def __init__(self, input_dim, hidden_dim, output_dim):
         super(Particle, self).__init__()
         self.transformer = nn.Transformer(input_dim, hidden_dim)
@@ -96,9 +95,9 @@ class Particle(nn.Module):
 
 
 class MultiSwarmOptimizer:
-    def __init__(
-        self, particle, num_particles, num_subswarms, fitness_func, bounds, num_epochs
-    ):
+
+    def __init__(self, particle, num_particles, num_subswarms, fitness_func,
+                 bounds, num_epochs):
         self.particle = particle
         self.num_particles = num_particles
         self.num_subswarms = num_subswarms
@@ -108,7 +107,8 @@ class MultiSwarmOptimizer:
 
         self.subswarms = []
         for _ in range(num_subswarms):
-            self.subswarms.append([deepcopy(particle) for _ in range(num_particles)])
+            self.subswarms.append(
+                [deepcopy(particle) for _ in range(num_particles)])
 
     def optimize(self):
         for epoch in range(self.num_epochs):
@@ -122,24 +122,21 @@ class MultiSwarmOptimizer:
                 best_particle = max(subswarm, key=lambda p: p.best_fitness)
                 for particle in subswarm:
                     particle.velocity = (
-                        particle.velocity
-                        + 0.5 * (particle.best_position - particle.position)
-                        + 0.5 * (best_particle.best_position - particle.position)
-                    )
+                        particle.velocity + 0.5 *
+                        (particle.best_position - particle.position) + 0.5 *
+                        (best_particle.best_position - particle.position))
                     particle.position = particle.position + particle.velocity
-                    particle.position = torch.clamp(particle.position, *self.bounds)
+                    particle.position = torch.clamp(particle.position,
+                                                    *self.bounds)
 
-            best_subswarm = max(
-                self.subswarms, key=lambda s: max(p.best_fitness for p in s)
-            )
+            best_subswarm = max(self.subswarms,
+                                key=lambda s: max(p.best_fitness for p in s))
             best_particle = max(best_subswarm, key=lambda p: p.best_fitness)
-            print(
-                f"Epoch {epoch+1}/{self.num_epochs}, Best Fitness: {best_particle.best_fitness}"
-            )
+            print(f"Epoch {epoch+1}/{self.num_epochs}, Best Fitness:"
+                  f" {best_particle.best_fitness}")
 
-        best_subswarm = max(
-            self.subswarms, key=lambda s: max(p.best_fitness for p in s)
-        )
+        best_subswarm = max(self.subswarms,
+                            key=lambda s: max(p.best_fitness for p in s))
         best_particle = max(best_subswarm, key=lambda p: p.best_fitness)
         return best_particle
 
@@ -175,9 +172,8 @@ output_dim = 2
 particle = Particle(input_dim, hidden_dim, output_dim)
 
 # Create the multi-swarm optimizer
-optimizer = MultiSwarmOptimizer(
-    particle, num_particles, num_subswarms, fitness_func, bounds, num_epochs
-)
+optimizer = MultiSwarmOptimizer(particle, num_particles, num_subswarms,
+                                fitness_func, bounds, num_epochs)
 
 # Run the optimization
 best_particle = optimizer.optimize()

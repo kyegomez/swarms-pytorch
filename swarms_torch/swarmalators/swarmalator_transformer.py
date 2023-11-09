@@ -16,7 +16,12 @@ class SwarmalatorModel(nn.Module):
     print(positions, orientations)
     """
 
-    def __init__(self, N, D, nhead=8, num_encoder_layers=6, num_decoder_layers=6):
+    def __init__(self,
+                 N,
+                 D,
+                 nhead=8,
+                 num_encoder_layers=6,
+                 num_decoder_layers=6):
         super(SwarmalatorModel, self).__init__()
         self.N = N
         self.D = D
@@ -27,23 +32,19 @@ class SwarmalatorModel(nn.Module):
         # Transformer encoder to process positions and orientations
         encoder_layer = nn.TransformerEncoderLayer(d_model=D, nhead=nhead)
         self.transformer_encoder = nn.TransformerEncoder(
-            encoder_layer, num_layers=num_encoder_layers
-        )
+            encoder_layer, num_layers=num_encoder_layers)
 
         # Transformer decoder to produce updated positions and orientations
         decoder_layer = nn.TransformerDecoderLayer(d_model=D, nhead=nhead)
         self.transformer_decoder = nn.TransformerDecoder(
-            decoder_layer, num_layers=num_decoder_layers
-        )
+            decoder_layer, num_layers=num_decoder_layers)
 
     def forward(self, src_mask=None, tgt_mask=None, memory_mask=None):
         # Using transformer encoder to get memory
-        position_memory = self.transformer_encoder(
-            self.positions.unsqueeze(1), mask=src_mask
-        )
+        position_memory = self.transformer_encoder(self.positions.unsqueeze(1),
+                                                   mask=src_mask)
         orientation_memory = self.transformer_encoder(
-            self.orientations.unsqueeze(1), mask=src_mask
-        )
+            self.orientations.unsqueeze(1), mask=src_mask)
         # Using transformer decoder to get updated positions and orientations
         updated_positions = self.transformer_decoder(
             self.positions.unsqueeze(1),

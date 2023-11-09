@@ -6,9 +6,8 @@ from swarms_torch.swarmalators.swarmalator_base import simulate_swarmalators
 N = 100
 J, alpha, beta, gamma, epsilon_a, epsilon_r, R = [0.1] * 7
 D = 3  # Ensure D is an integer
-xi, sigma_i = simulate_swarmalators(
-    N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
-)
+xi, sigma_i = simulate_swarmalators(N, J, alpha, beta, gamma, epsilon_a,
+                                    epsilon_r, R, D)
 print(xi[-1], sigma_i[-1])
 
 
@@ -33,7 +32,11 @@ def visualize_swarmalators(results_xi):
         scatter._offsets3d = (x_data, y_data, z_data)
         return (scatter,)
 
-    ani = FuncAnimation(fig, update, frames=len(results_xi), init_func=init, blit=False)
+    ani = FuncAnimation(fig,
+                        update,
+                        frames=len(results_xi),
+                        init_func=init,
+                        blit=False)
 
     plt.show()
 

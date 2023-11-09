@@ -1,4 +1,3 @@
-import pytest
 import torch
 from swarms_torch import TransformerCell, CellularSwarm
 

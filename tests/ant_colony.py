@@ -5,10 +5,11 @@ from swarms_torch import AntColonyOptimization  # Import your class
 
 
 class TestAntColonyOptimization(unittest.TestCase):
+
     def setUp(self):
-        self.aco = AntColonyOptimization(
-            goal="Hello ACO", num_ants=1000, num_iterations=10
-        )
+        self.aco = AntColonyOptimization(goal="Hello ACO",
+                                         num_ants=1000,
+                                         num_iterations=10)
 
     def test_initialization(self):
         self.assertEqual(self.aco.goal.tolist(), [ord(c) for c in "Hello ACO"])
@@ -16,15 +17,16 @@ class TestAntColonyOptimization(unittest.TestCase):
         self.assertEqual(self.aco.pheromones.tolist(), [1.0] * 1000)
 
     def test_fitness(self):
-        solution = torch.tensor([ord(c) for c in "Hello ACO"], dtype=torch.float32)
-        self.assertEqual(
-            self.aco.fitness(solution).item(), 0
-        )  # Should be maximum fitness
+        solution = torch.tensor([ord(c) for c in "Hello ACO"],
+                                dtype=torch.float32)
+        self.assertEqual(self.aco.fitness(solution).item(),
+                         0)  # Should be maximum fitness
 
     def test_update_pheromones(self):
         initial_pheromones = self.aco.pheromones.clone()
         self.aco.solutions = [
-            torch.tensor([ord(c) for c in "Hello ACO"], dtype=torch.float32)
+            torch.tensor([ord(c)
+                          for c in "Hello ACO"], dtype=torch.float32)
             for _ in range(1000)
         ]
         self.aco.update_pheromones()

@@ -5,7 +5,9 @@ import gym
 
 
 class MAgent:
+
     class Agent(nn.Module):
+
         def __init__(self, input_dim, output_dim):
             super().__init__()
             self.policy = nn.Sequential(
@@ -19,15 +21,17 @@ class MAgent:
             return self.policy(state)
 
     class MultiGymEnvironment:
+
         def __init__(self, env_name, num_agents):
             self.envs = [gym.make(env_name) for _ in range(num_agents)]
             self.agents = [
-                MAgent.Agent(
-                    self.envs[0].observation_space.shape[0], self.envs[0].action_space.n
-                )
+                MAgent.Agent(self.envs[0].observation_space.shape[0],
+                             self.envs[0].action_space.n)
                 for _ in range(num_agents)
             ]
-            self.optimizers = [optim.Adam(agent.parameters()) for agent in self.agents]
+            self.optimizers = [
+                optim.Adam(agent.parameters()) for agent in self.agents
+            ]
 
         def step(self, agent_actions):
             rewards = []
@@ -49,12 +53,10 @@ class MAgent:
                 ]
                 rewards = self.step(actions)
 
-                for agent, optimizer, reward in zip(
-                    self.agents, self.optimizers, rewards
-                ):
-                    loss = (
-                        -torch.log(agent(torch.FloatTensor(states))) * reward
-                    )  # Example loss function
+                for agent, optimizer, reward in zip(self.agents,
+                                                    self.optimizers, rewards):
+                    loss = (-torch.log(agent(torch.FloatTensor(states))) *
+                            reward)  # Example loss function
                     optimizer.zero_grad()
                     loss.backward()
                     optimizer.step()
