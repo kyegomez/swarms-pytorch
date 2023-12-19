@@ -72,10 +72,9 @@ class Fish(nn.Module):
         alpha=0.1,
     ):
         super().__init__()
-        self.model = Transformer(d_model=dim,
-                                 nhead=heads,
-                                 num_encoder_layers=depth,
-                                 num_decoder_layers=depth)
+        self.model = Transformer(
+            d_model=dim, nhead=heads, num_encoder_layers=depth, num_decoder_layers=depth
+        )
         self.optimizer = Adam(self.parameters())
         self.scheduler = ReduceLROnPlateau(self.optimizer, "min")
 
@@ -97,15 +96,13 @@ class Fish(nn.Module):
         outputs = self.model(src, tgt)
 
         # cross entropy loss
-        loss = CrossEntropyLoss()(outputs.view(-1, outputs.size(-1)),
-                                  labels.view(-1))
+        loss = CrossEntropyLoss()(outputs.view(-1, outputs.size(-1)), labels.view(-1))
 
         # complexity regularization by adding the sum of the squares of the
         # weights
         if self.complexity_regularization:
             # complexity regularization
-            loss += self.alpha * sum(
-                p.pow(2.0).sum() for p in self.model.parameters())
+            loss += self.alpha * sum(p.pow(2.0).sum() for p in self.model.parameters())
 
         # backpropagation
         loss.backward()
@@ -214,8 +211,7 @@ class FishSchool(nn.Module):
             # with higher food
             if self.complex_school:
                 for fish in self.fish:
-                    neighbor = self.fish[torch.randint(0, len(self.fish),
-                                                       (1,)).item()]
+                    neighbor = self.fish[torch.randint(0, len(self.fish), (1,)).item()]
                     if neighbor.food > fish.food:
                         fish.model.load_state_dict(neighbor.model.state_dict())
 
@@ -238,8 +234,9 @@ class FishSchool(nn.Module):
 
         averages outputs of the top peforming models
         """
-        top_fish = sorted(self.fish, key=lambda f: f.food,
-                          reverse=True)[:self.num_top_fish]
+        top_fish = sorted(self.fish, key=lambda f: f.food, reverse=True)[
+            : self.num_top_fish
+        ]
 
         self.model.eval()
 

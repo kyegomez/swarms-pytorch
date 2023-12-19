@@ -68,13 +68,15 @@ class AntColonyOptimization:
     def update_pheromones(self):
         """Update pheromone levels"""
         for i, solution in enumerate(self.solutions):
-            self.pheromones[i] = (1 - self.evaporation_rate
-                                 ) * self.pheromones[i] + self.fitness(solution)
+            self.pheromones[i] = (1 - self.evaporation_rate) * self.pheromones[
+                i
+            ] + self.fitness(solution)
 
     def choose_next_path(self):
         """Choose the next path based on the pheromone levels"""
         probabilities = (self.pheromones**self.alpha) * (
-            (1.0 / (1 + self.pheromones))**self.beta)
+            (1.0 / (1 + self.pheromones)) ** self.beta
+        )
 
         probabilities /= probabilities.sum()
 
@@ -88,8 +90,8 @@ class AntColonyOptimization:
                 # This is a placeholder. Actual implementation will define how
                 # ants traverse the search space.
                 solution = torch.randint(
-                    32, 127, (len(self.goal),),
-                    dtype=torch.float32)  # Random characters.
+                    32, 127, (len(self.goal),), dtype=torch.float32
+                )  # Random characters.
                 self.solutions.append(solution)
             self.update_pheromones()
 

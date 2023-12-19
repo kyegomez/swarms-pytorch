@@ -78,12 +78,18 @@ class ParticleSwarmOptimization:
     ):
         return 1.0 / (1.0 + torch.norm((particle - self.goal).float()))
 
-    def update(self,):
+    def update(
+        self,
+    ):
         """Update the particles"""
         for i in range(self.n_particles):
-            fitness = self.compute_fitness(self.particles[i],)
+            fitness = self.compute_fitness(
+                self.particles[i],
+            )
 
-            personal_best_fitness = self.compute_fitness(self.personal_best[i],)
+            personal_best_fitness = self.compute_fitness(
+                self.personal_best[i],
+            )
 
             if fitness > personal_best_fitness:
                 self.personal_best[i] = self.particles[i]
@@ -94,16 +100,23 @@ class ParticleSwarmOptimization:
                 self.global_best = self.particles[i]
 
             # update velocity
-            personal_attraction = (self.personal_best_weight *
-                                   torch.rand(self.goal.size()) *
-                                   (self.personal_best[i] - self.particles[i]))
+            personal_attraction = (
+                self.personal_best_weight
+                * torch.rand(self.goal.size())
+                * (self.personal_best[i] - self.particles[i])
+            )
 
-            global_attraction = (self.global_best_weight *
-                                 torch.rand(self.goal.size()) *
-                                 (self.global_best - self.particles[i]))
+            global_attraction = (
+                self.global_best_weight
+                * torch.rand(self.goal.size())
+                * (self.global_best - self.particles[i])
+            )
 
-            self.velocities[i] = (self.inertia * self.velocities[i] +
-                                  personal_attraction + global_attraction)
+            self.velocities[i] = (
+                self.inertia * self.velocities[i]
+                + personal_attraction
+                + global_attraction
+            )
 
             # Update position
             self.particles[i] += self.velocities[i].int()
@@ -117,5 +130,4 @@ class ParticleSwarmOptimization:
         for _ in range(iterations):
             self.update()
             best_particle = self.global_best
-            print("Best Particle: ",
-                  "".join([chr(int(i)) for i in best_particle]))
+            print("Best Particle: ", "".join([chr(int(i)) for i in best_particle]))

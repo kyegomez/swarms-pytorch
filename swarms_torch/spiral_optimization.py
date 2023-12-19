@@ -43,8 +43,9 @@ class SPO:
         - m: Number of search points (strings).
         - k_max: Maximum number of iterations.
         """
-        self.goal = torch.tensor([ord(c) for c in goal],
-                                 dtype=torch.float32)  # ASCII representation
+        self.goal = torch.tensor(
+            [ord(c) for c in goal], dtype=torch.float32
+        )  # ASCII representation
 
         self.m = m
         self.k_max = k_max
@@ -52,9 +53,7 @@ class SPO:
 
         # Initializing the search points and center randomly
         # Note: 32-126 is the ASCII range for all printable characters
-        self.points = torch.randint(32,
-                                    127, (self.m, self.n_dim),
-                                    dtype=torch.float32)
+        self.points = torch.randint(32, 127, (self.m, self.n_dim), dtype=torch.float32)
         self.center = torch.randint(32, 127, (self.n_dim,), dtype=torch.float32)
 
     def _step_rate(self, k):
@@ -74,7 +73,8 @@ class SPO:
         R = torch.eye(self.n_dim)  # Identity for simplicity in n-dimensions
         for i in range(self.m):
             self.points[i] = self.center + r * torch.mv(
-                R, (self.points[i] - self.center))
+                R, (self.points[i] - self.center)
+            )
 
     def _update_center(self):
         """Find the best search point and set as the new center."""
@@ -87,8 +87,9 @@ class SPO:
         for k in range(self.k_max):
             self._update_points(k)
             self._update_center()
-            if (torch.norm(self.center - self.goal) <
-                    1e-5):  # Example convergence condition
+            if (
+                torch.norm(self.center - self.goal) < 1e-5
+            ):  # Example convergence condition
                 break
 
     def best_string(self):

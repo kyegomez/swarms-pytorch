@@ -17,21 +17,13 @@ def test_fish_train():
 
 
 def test_fishschool_initialization():
-    fishschool = FishSchool(num_fish=10,
-                            dim=512,
-                            heads=8,
-                            depth=6,
-                            num_iter=100)
+    fishschool = FishSchool(num_fish=10, dim=512, heads=8, depth=6, num_iter=100)
     assert isinstance(fishschool, FishSchool)
     assert len(fishschool.fish) == 10
 
 
 def test_fishschool_forward():
-    fishschool = FishSchool(num_fish=10,
-                            dim=512,
-                            heads=8,
-                            depth=6,
-                            num_iter=100)
+    fishschool = FishSchool(num_fish=10, dim=512, heads=8, depth=6, num_iter=100)
     src = torch.randn(10, 32, 512)
     tgt = torch.randn(10, 32, 512)
     labels = torch.randint(0, 512, (10, 32))

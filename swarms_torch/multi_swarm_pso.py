@@ -1,4 +1,3 @@
-import torch
 import random
 import string
 
@@ -77,7 +76,8 @@ class MultiSwarmPSO:
         """
         return "".join(
             random.choice(string.ascii_lowercase + " ")
-            for _ in range(self.num_dimensions))
+            for _ in range(self.num_dimensions)
+        )
 
     def fitness_function(self, position):
         """Fitness function to be maximized"""
@@ -95,19 +95,17 @@ class MultiSwarmPSO:
 
     def optimize(self):
         """Optimizes the fitness function"""
-        sub_swarms = [[
-            self.generate_random_string()
-            for _ in range(self.num_particles_per_swarm)
+        sub_swarms = [
+            [self.generate_random_string() for _ in range(self.num_particles_per_swarm)]
+            for _ in range(self.num_sub_swarms)
         ]
-                      for _ in range(self.num_sub_swarms)]
 
         for iteration in range(self.max_iterations):
             for sub_swarm in sub_swarms:
                 for particle in sub_swarm:
                     fitness = self.fitness_function(particle)
                     if fitness > 0:
-                        index_to_change = random.randint(
-                            0, self.num_dimensions - 1)
+                        index_to_change = random.randint(0, self.num_dimensions - 1)
                         new_char = random.choice(string.ascii_lowercase + " ")
                         new_position = list(particle)
                         new_position[index_to_change] = new_char
@@ -119,26 +117,34 @@ class MultiSwarmPSO:
             global_best_fitness = max(
                 self.fitness_function(particle)
                 for sub_swarm in sub_swarms
-                for particle in sub_swarm)
+                for particle in sub_swarm
+            )
             global_best_position = [
-                particle for sub_swarm in sub_swarms for particle in sub_swarm
+                particle
+                for sub_swarm in sub_swarms
+                for particle in sub_swarm
                 if self.fitness_function(particle) == global_best_fitness
             ][0]
             print(
                 f"Iteration {iteration}: Global Best Fitness = {global_best_fitness},"
-                f" Global Best Position = {global_best_position}")
+                f" Global Best Position = {global_best_position}"
+            )
 
         global_best_fitness = max(
             self.fitness_function(particle)
             for sub_swarm in sub_swarms
-            for particle in sub_swarm)
+            for particle in sub_swarm
+        )
         global_best_position = [
-            particle for sub_swarm in sub_swarms for particle in sub_swarm
+            particle
+            for sub_swarm in sub_swarms
+            for particle in sub_swarm
             if self.fitness_function(particle) == global_best_fitness
         ][0]
         print(
             f"Final Result: Global Best Fitness = {global_best_fitness}, Global Best"
-            f" Position = {global_best_position}")
+            f" Position = {global_best_position}"
+        )
 
 
 # Example usage

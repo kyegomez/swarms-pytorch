@@ -50,24 +50,27 @@ def test_pairwise_distances_symmetry():
 def test_function_for_x_shape():
     xi = torch.randn(N, D)
     sigma_i = torch.randn(N, D)
-    dx = function_for_x(xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a,
-                        epsilon_r, R, D)
+    dx = function_for_x(
+        xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+    )
     assert dx.shape == (N, D)
 
 
 def test_function_for_x_output_range():
     xi = torch.randn(N, D)
     sigma_i = torch.randn(N, D)
-    dx = function_for_x(xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a,
-                        epsilon_r, R, D)
+    dx = function_for_x(
+        xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+    )
     assert (dx >= -1.0).all() and (dx <= 1.0).all()
 
 
 def test_function_for_x_zero_at_equilibrium():
     xi = torch.zeros(N, D)
     sigma_i = torch.zeros(N, D)
-    dx = function_for_x(xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a,
-                        epsilon_r, R, D)
+    dx = function_for_x(
+        xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+    )
     assert (dx == 0.0).all()
 
 
@@ -77,24 +80,27 @@ def test_function_for_x_zero_at_equilibrium():
 def test_function_for_sigma_shape():
     xi = torch.randn(N, D)
     sigma_i = torch.randn(N, D)
-    d_sigma = function_for_sigma(xi, sigma_i, N, J, alpha, beta, gamma,
-                                 epsilon_a, epsilon_r, R, D)
+    d_sigma = function_for_sigma(
+        xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+    )
     assert d_sigma.shape == (N, D)
 
 
 def test_function_for_sigma_output_range():
     xi = torch.randn(N, D)
     sigma_i = torch.randn(N, D)
-    d_sigma = function_for_sigma(xi, sigma_i, N, J, alpha, beta, gamma,
-                                 epsilon_a, epsilon_r, R, D)
+    d_sigma = function_for_sigma(
+        xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+    )
     assert (d_sigma >= -1.0).all() and (d_sigma <= 1.0).all()
 
 
 def test_function_for_sigma_zero_at_equilibrium():
     xi = torch.zeros(N, D)
     sigma_i = torch.zeros(N, D)
-    d_sigma = function_for_sigma(xi, sigma_i, N, J, alpha, beta, gamma,
-                                 epsilon_a, epsilon_r, R, D)
+    d_sigma = function_for_sigma(
+        xi, sigma_i, N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D
+    )
     assert (d_sigma == 0.0).all()
 
 
@@ -102,17 +108,9 @@ def test_function_for_sigma_zero_at_equilibrium():
 
 
 def test_simulate_swarmalators_output_shape():
-    results_xi, results_sigma_i = simulate_swarmalators(N,
-                                                        J,
-                                                        alpha,
-                                                        beta,
-                                                        gamma,
-                                                        epsilon_a,
-                                                        epsilon_r,
-                                                        R,
-                                                        D,
-                                                        T=T,
-                                                        dt=dt)
+    results_xi, results_sigma_i = simulate_swarmalators(
+        N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D, T=T, dt=dt
+    )
     assert len(results_xi) == T
     assert len(results_sigma_i) == T
     assert results_xi[0].shape == (N, D)
@@ -120,22 +118,12 @@ def test_simulate_swarmalators_output_shape():
 
 
 def test_simulate_swarmalators_convergence():
-    results_xi, results_sigma_i = simulate_swarmalators(N,
-                                                        J,
-                                                        alpha,
-                                                        beta,
-                                                        gamma,
-                                                        epsilon_a,
-                                                        epsilon_r,
-                                                        R,
-                                                        D,
-                                                        T=T,
-                                                        dt=dt)
+    results_xi, results_sigma_i = simulate_swarmalators(
+        N, J, alpha, beta, gamma, epsilon_a, epsilon_r, R, D, T=T, dt=dt
+    )
     for i in range(1, T):
         assert torch.allclose(results_xi[i], results_xi[i - 1], atol=1e-6)
-        assert torch.allclose(results_sigma_i[i],
-                              results_sigma_i[i - 1],
-                              atol=1e-6)
+        assert torch.allclose(results_sigma_i[i], results_sigma_i[i - 1], atol=1e-6)
 
 
 def test_simulate_swarmalators_non_zero_initial_condition():
