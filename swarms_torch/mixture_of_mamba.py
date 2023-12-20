@@ -5,9 +5,35 @@ try:
     from mamba_ssm import Mamba
 except ImportError:
     print("Mamba not installed")
-    
+
 
 class MixtureOfMambas(nn.Module):
+    """Mixture of Mambas
+
+    Args:
+        num_mambas (int): _description_
+        dim (int): _description_
+        d_state (int): _description_
+        d_conv (_type_): _description_
+        expand (int): _description_
+        aggregation_method (str, optional): _description_. Defaults to "average".
+
+    Example::
+    model = MixtureOfMambas(
+        num_mambas=4,
+        dim=512,
+        d_state=1024,
+        d_conv=1024,
+        expand=4,
+        aggregation_method="average",
+
+    )
+
+
+
+
+    """
+
     def __init__(
         self,
         num_mambas: int,
