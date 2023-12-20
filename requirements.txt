@@ -1,7 +1,9 @@
 torch
 einops
 pandas
-
+zetascale
+mamba-ssm
+causal-conv1d 
 
 
 
