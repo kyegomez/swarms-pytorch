@@ -4,6 +4,7 @@ pandas
 zetascale
 mamba-ssm
 causal-conv1d 
+pytest
 
 
 
