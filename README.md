@@ -1,7 +1,7 @@
 [![Multi-Modality](agorabanner.png)](https://discord.gg/qUtxnK2NMf)
 
 # Swarms in Torch
-An experimental repository that houses useful swarming algorithms like PSO, Ant Colony, Sakana, and more in PyTorch primitives😊
+Swarms in Torch is an experimental repository designed to cater to your swarming algorithm needs. With a range of useful algorithms including Particle Swarm Optimization (PSO), Ant Colony, Sakana, and more, all implemented using PyTorch primitives, you can easily leverage the power of swarming techniques in your projects.
 
 
 ## Installation
