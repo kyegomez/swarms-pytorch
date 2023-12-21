@@ -10,15 +10,10 @@ def update_pyproject_versions(pyproject_path):
         print(f"Error: The file '{pyproject_path}' was not found.")
         return
     except toml.TomlDecodeError:
-        print(
-            f"Error: The file '{pyproject_path}' is not a valid TOML"
-            " file."
-        )
+        print(f"Error: The file '{pyproject_path}' is not a valid TOML" " file.")
         return
 
-    dependencies = (
-        data.get("tool", {}).get("poetry", {}).get("dependencies", {})
-    )
+    dependencies = data.get("tool", {}).get("poetry", {}).get("dependencies", {})
 
     for package in dependencies:
         if package.lower() == "python":
