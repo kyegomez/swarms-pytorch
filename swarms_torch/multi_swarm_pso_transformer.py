@@ -146,40 +146,40 @@ class MultiSwarmOptimizer:
         return self.particle
 
 
-import torch
-import torch.nn as nn
-from random import random
+# import torch
+# import torch.nn as nn
+# from random import random
 
 
-# Define the fitness function
-def fitness_func(particle):
-    # This is a dummy fitness function. Replace it with your own.
-    return random()
+# # Define the fitness function
+# def fitness_func(particle):
+#     # This is a dummy fitness function. Replace it with your own.
+#     return random()
 
 
-# Define the bounds for the particle positions
-bounds = (-1.0, 1.0)
+# # Define the bounds for the particle positions
+# bounds = (-1.0, 1.0)
 
-# Define the number of particles, sub-swarms, and epochs
-num_particles = 10
-num_subswarms = 5
-num_epochs = 100
+# # Define the number of particles, sub-swarms, and epochs
+# num_particles = 10
+# num_subswarms = 5
+# num_epochs = 100
 
-# Define the dimensions for the transformer model
-input_dim = 10
-hidden_dim = 20
-output_dim = 2
+# # Define the dimensions for the transformer model
+# input_dim = 10
+# hidden_dim = 20
+# output_dim = 2
 
-# Create a particle (transformer model)
-particle = Particle(input_dim, hidden_dim, output_dim)
+# # Create a particle (transformer model)
+# particle = Particle(input_dim, hidden_dim, output_dim)
 
-# Create the multi-swarm optimizer
-optimizer = MultiSwarmOptimizer(
-    particle, num_particles, num_subswarms, fitness_func, bounds, num_epochs
-)
+# # Create the multi-swarm optimizer
+# optimizer = MultiSwarmOptimizer(
+#     particle, num_particles, num_subswarms, fitness_func, bounds, num_epochs
+# )
 
-# Run the optimization
-best_particle = optimizer.optimize()
+# # Run the optimization
+# best_particle = optimizer.optimize()
 
-# The best_particle is the model with the highest fitness score
-print(best_particle)
+# # The best_particle is the model with the highest fitness score
+# print(best_particle)

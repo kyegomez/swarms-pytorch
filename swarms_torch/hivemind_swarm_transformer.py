@@ -129,16 +129,16 @@ class HivemindSwarm(nn.Module):
         return outputs
 
 
-model = HivemindSwarm(
-    dim=512,
-    max_seq_len=1024,
-    num_tokens=20000,
-    depth=6,
-    heads=8,
-    dim_head=64,
-    num_models=4,
-)
+# model = HivemindSwarm(
+#     dim=512,
+#     max_seq_len=1024,
+#     num_tokens=20000,
+#     depth=6,
+#     heads=8,
+#     dim_head=64,
+#     num_models=4,
+# )
 
-x = torch.randn(1, 1024, 512)
-y = model(x)
-print(y.shape)
+# x = torch.randn(1, 1024, 512)
+# y = model(x)
+# print(y.shape)
