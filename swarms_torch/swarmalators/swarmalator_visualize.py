@@ -33,7 +33,9 @@ def visualize_swarmalators(results_xi):
         scatter._offsets3d = (x_data, y_data, z_data)
         return (scatter,)
 
-    FuncAnimation(fig, update, frames=len(results_xi), init_func=init, blit=False)
+    FuncAnimation(
+        fig, update, frames=len(results_xi), init_func=init, blit=False
+    )
 
     plt.show()
 

@@ -123,7 +123,9 @@ def test_simulate_swarmalators_convergence():
     )
     for i in range(1, T):
         assert torch.allclose(results_xi[i], results_xi[i - 1], atol=1e-6)
-        assert torch.allclose(results_sigma_i[i], results_sigma_i[i - 1], atol=1e-6)
+        assert torch.allclose(
+            results_sigma_i[i], results_sigma_i[i - 1], atol=1e-6
+        )
 
 
 def test_simulate_swarmalators_non_zero_initial_condition():

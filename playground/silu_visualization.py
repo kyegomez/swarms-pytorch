@@ -16,7 +16,9 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection="3d")
 
 # Scatter plot of SiLU outputs
-ax.scatter(input_values, output_values, input_values, c=output_values, cmap="viridis")
+ax.scatter(
+    input_values, output_values, input_values, c=output_values, cmap="viridis"
+)
 ax.set_xlabel("Input")
 ax.set_ylabel("Output")
 ax.set_zlabel("Input")

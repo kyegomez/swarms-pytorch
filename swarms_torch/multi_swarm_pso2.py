@@ -24,7 +24,9 @@ class Particle:
 
 class Swarm:
     def __init__(self, num_particles, dim, minx, maxx):
-        self.particles = [Particle(dim, minx, maxx) for _ in range(num_particles)]
+        self.particles = [
+            Particle(dim, minx, maxx) for _ in range(num_particles)
+        ]
         self.global_best = None
         self.global_best_score = float("inf")
 
@@ -42,7 +44,9 @@ class Swarm:
 
 class MultiSwarm:
     def __init__(self, num_swarms, num_particles, dim, minx, maxx):
-        self.swarms = [Swarm(num_particles, dim, minx, maxx) for _ in range(num_swarms)]
+        self.swarms = [
+            Swarm(num_particles, dim, minx, maxx) for _ in range(num_swarms)
+        ]
         self.minx = minx
         self.maxx = maxx
 

@@ -31,14 +31,14 @@ def test_forward_average(mixture):
 def test_forward_weighted(mixture):
     x = torch.rand((1, 10))
     weights = torch.ones(5)
-    mixture.aggregation_method = "weighted"
+    mixture.fusion_method = "weighted"
     output = mixture.forward(x, weights)
     assert output.shape == (1, 10)
 
 
 def test_forward_invalid_aggregation(mixture):
     x = torch.rand((1, 10))
-    mixture.aggregation_method = "invalid"
+    mixture.fusion_method = "invalid"
     with pytest.raises(ValueError):
         mixture.forward(x)
 
@@ -71,7 +71,7 @@ def test_forward_different_dimensions(mixture):
 
 def test_forward_no_weights(mixture):
     x = torch.rand((1, 10))
-    mixture.aggregation_method = "weighted"
+    mixture.fusion_method = "weighted"
     with pytest.raises(ValueError):
         mixture.forward(x)
 
@@ -79,6 +79,6 @@ def test_forward_no_weights(mixture):
 def test_forward_extra_weights(mixture):
     x = torch.rand((1, 10))
     weights = torch.ones(6)
-    mixture.aggregation_method = "weighted"
+    mixture.fusion_method = "weighted"
     with pytest.raises(ValueError):
         mixture.forward(x, weights)

@@ -16,7 +16,9 @@ class SwarmalatorModel(nn.Module):
     print(positions, orientations)
     """
 
-    def __init__(self, N, D, nhead=8, num_encoder_layers=6, num_decoder_layers=6):
+    def __init__(
+        self, N, D, nhead=8, num_encoder_layers=6, num_decoder_layers=6
+    ):
         super(SwarmalatorModel, self).__init__()
         self.N = N
         self.D = D

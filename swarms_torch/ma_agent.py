@@ -23,11 +23,14 @@ class MAgent:
             self.envs = [gym.make(env_name) for _ in range(num_agents)]
             self.agents = [
                 MAgent.Agent(
-                    self.envs[0].observation_space.shape[0], self.envs[0].action_space.n
+                    self.envs[0].observation_space.shape[0],
+                    self.envs[0].action_space.n,
                 )
                 for _ in range(num_agents)
             ]
-            self.optimizers = [optim.Adam(agent.parameters()) for agent in self.agents]
+            self.optimizers = [
+                optim.Adam(agent.parameters()) for agent in self.agents
+            ]
 
         def step(self, agent_actions):
             rewards = []

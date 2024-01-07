@@ -111,25 +111,27 @@ visualize_swarmalators(xi)
 ```
 
 ### Mixture of Mambas
-- Mixture of Mamba models of SSMs, could be improved with a router of some kind or better aggregation methods!
+- An 100% novel implementation of a swarm of MixtureOfMambas.
+- Various fusion methods through averages, weighted_aggegrate, and more to come like a gating mechanism or other various methods.
+- fusion methods: average, weighted, absmax, weighted_softmax, or your own custom function
 
 ```python
 import torch
-from swarms_torch.mixture_of_mamba import MixtureOfMambas
+from swarms_torch import MixtureOfMambas
 
-# Example Usage
-num_models = 3
-dim = 16
-state_range = (1, 20)
-conv_range = (1, 10)
-expand_range = (1, 5)
-
-mixture_model = MixtureOfMambas(num_models, dim, state_range, conv_range, expand_range)
-x = torch.randn(2, 64, dim).to("cuda")
-output = mixture_model(
-    x, aggregation_method="average"
-)  # Or use 'weighted' with weights
-
+# 3D Tensor for text
+x = torch.rand(1, 512, 512)
+model = MixtureOfMambas(
+    num_mambas=2,
+    dim=512,
+    d_state=1024,
+    depth=4,
+    d_conv=1024,
+    expand=4,
+    fusion_method="average",
+    custom_fusion_func=None,
+)
+print(model(x).shape)
 
 ```
 

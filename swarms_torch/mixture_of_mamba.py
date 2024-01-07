@@ -1,14 +1,14 @@
 import torch
 from torch import nn
-
-try:
-    from mamba_ssm import Mamba
-except ImportError:
-    print("Mamba not installed")
+from zeta.nn import MambaBlock, Mamba
 
 
 class MixtureOfMambas(nn.Module):
-    """Mixture of Mambas
+    """
+    Mixtures of Mamba is a swarm of Mamba models. The swarm can be aggregated
+    using a weighted average or a simple average. We plan to add more aggregation
+    methods in the future like a gating mechanism or a neural network or a
+    transformer.
 
     Args:
         num_mambas (int): _description_
@@ -16,22 +16,21 @@ class MixtureOfMambas(nn.Module):
         d_state (int): _description_
         d_conv (_type_): _description_
         expand (int): _description_
-        aggregation_method (str, optional): _description_. Defaults to "average".
+        fusion_method (str, optional): _description_. Defaults to "average".
 
     Example::
-    model = MixtureOfMambas(
-        num_mambas=4,
-        dim=512,
-        d_state=1024,
-        d_conv=1024,
-        expand=4,
-        aggregation_method="average",
-
-    )
-
-
-
-
+    >>> model = MixtureOfMambas(
+    ...     num_mambas=2,
+    ...     dim=512,
+    ...     d_state=1024,
+    ...     depth=4,
+    ...     d_conv=1024,
+    ...     expand=4,
+    ...     fusion_method="average",
+    ... )
+    >>> x = torch.rand(1, 512, 512)
+    >>> model(x).shape
+    torch.Size([1, 512, 512])
     """
 
     def __init__(
@@ -39,21 +38,35 @@ class MixtureOfMambas(nn.Module):
         num_mambas: int,
         dim: int,
         d_state: int,
+        depth: int,
         d_conv,
         expand: int,
-        aggregation_method: str = "average",
+        fusion_method: str = "average",
+        custom_fusion_func: callable = None,
+        *args,
+        **kwargs
     ):
         super(MixtureOfMambas, self).__init__()
         self.num_mambas = num_mambas
         self.dim = dim
         self.d_state = d_state
+        self.depth = depth
         self.d_conv = d_conv
         self.expand = expand
-        self.aggregation_method = aggregation_method
+        self.fusion_method = fusion_method
+        self.custom_fusion_func = custom_fusion_func
 
         self.models = nn.ModuleList()
         for _ in range(num_mambas):
-            mamba_model = Mamba(dim, d_state, d_conv, d_conv, expand)
+            mamba_model = MambaBlock(
+                dim,
+                depth,
+                d_state,
+                expand,
+                d_conv,
+                *args,
+                **kwargs
+            )
             self.models.append(mamba_model)
 
     def forward(self, x: torch.Tensor, weights=None):
@@ -71,12 +84,24 @@ class MixtureOfMambas(nn.Module):
         """
         outputs = [model(x) for model in self.models]
 
-        if self.aggregation_method == "average":
-            return torch.mean(torch.stack(outputs), dim=0)
-        elif self.aggregation_method == "weighted":
+        if self.fusion_method == "average":
+            return self.average_aggregate(outputs)
+        elif self.fusion_method == "weighted":
             return self.weighted_aggregate(outputs, weights)
+        elif self.fusion_method == "absmax":
+            return self.absmax_aggregate(outputs, weights)
+        elif self.fusion_method == "softmax":
+            return self.softmax_aggregate(outputs, weights)
+        elif self.fusion_method == "custom":
+            if self.custom_fusion_func is None:
+                raise ValueError(
+                    "custom_fusion_func must be provided if fusion_method is custom"
+                )
+            return self.custom_fusion_func(outputs, weights)
         else:
-            raise ValueError(f"Unknown aggregation method: {self.aggregation_method}")
+            raise ValueError(
+                f"Unknown aggregation method: {self.fusion_method}"
+            )
 
     def average_aggregate(self, outputs):
         """Average the outputs of the models in the swarm
@@ -104,5 +129,70 @@ class MixtureOfMambas(nn.Module):
         """
         if weights is None or len(weights) != len(outputs):
             raise ValueError("Weights must be the same length as outputs")
-        weighted_outputs = [weight * output for weight, output in zip(weights, outputs)]
+        weighted_outputs = [
+            weight * output for weight, output in zip(weights, outputs)
+        ]
         return sum(weighted_outputs)
+    
+    def softmax_aggregate(self, outputs, weights):
+        """Weighted average the outputs of the models in the swarm
+
+        Args:
+            outputs (_type_): _description_
+            weights (_type_): _description_
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            _type_: _description_
+        """
+        # if weights is None or len(weights) != len(outputs):
+        #     raise ValueError("Weights must be the same length as outputs")
+        if weights:
+            weighted_outputs = [
+                weight * output for weight, output in zip(weights, outputs)
+            ]
+            out = sum(weighted_outputs)
+            out = torch.softmax(out, dim=1)
+        else:
+            out = torch.softmax(outputs, dim=1)
+
+        return out
+        
+    def absmax(self, outputs):
+        """Absolute maximum of the outputs of the models in the swarm
+
+        Args:
+            outputs (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        # Absolute maximum of the outputs of the models in the swarm
+        return torch.max(torch.abs(torch.stack(outputs)), dim=0)[0]
+    
+    def absmax_aggregate(self, outputs, weights = None):
+        """
+        Weighted average the outputs of the models in the swarm
+
+        Args:
+            outputs (_type_): _description_
+            weights (_type_): _description_
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            _type_: _description_
+        """
+        # if weights is not None or len(weights) != len(outputs):
+        #     raise ValueError("Weights must be the same length as outputs")
+        
+        if weights:
+            weighted_outputs = [
+                weight * output for weight, output in zip(weights, outputs)
+            ]
+            return self.absmax(weighted_outputs)
+        else:
+            return self.absmax(outputs)

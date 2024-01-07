@@ -101,7 +101,9 @@ class HivemindSwarm(nn.Module):
             dim_head=dim_head,
         )
         # Create a list of transformers sharing the same weights
-        self.experts = nn.ModuleList([self.base_transformer for _ in range(num_models)])
+        self.experts = nn.ModuleList(
+            [self.base_transformer for _ in range(num_models)]
+        )
 
         # Gating mechniams allows the model to dynamically weight the contribution of each transformer
         # in the swarm. This is done by learning a weight for each transformer and then using a softmax

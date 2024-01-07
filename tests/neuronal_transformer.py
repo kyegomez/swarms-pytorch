@@ -26,12 +26,16 @@ def test_neuron_initialization():
 
 
 def test_synapsetransformer_initialization():
-    synapsetransformer = SynapseTransformer(input_dim=512, output_dim=256, nhead=8)
+    synapsetransformer = SynapseTransformer(
+        input_dim=512, output_dim=256, nhead=8
+    )
     assert isinstance(synapsetransformer, SynapseTransformer)
 
 
 def test_synapsetransformer_forward():
-    synapsetransformer = SynapseTransformer(input_dim=512, output_dim=256, nhead=8)
+    synapsetransformer = SynapseTransformer(
+        input_dim=512, output_dim=256, nhead=8
+    )
     x = torch.randn(10, 32, 512)
     output = synapsetransformer(x)
     assert output.shape == torch.Size([10, 32, 256])

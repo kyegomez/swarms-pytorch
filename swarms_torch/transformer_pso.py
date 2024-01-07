@@ -30,7 +30,9 @@ class Particle(nn.Module):
     def __init__(self, input_dim, d_model, nhead, num_layers, output_dim):
         super(Particle, self).__init__()
         self.embedding = nn.Embedding(input_dim, d_model)
-        self.transformer = nn.Transformer(d_model, nhead, num_layers, num_layers)
+        self.transformer = nn.Transformer(
+            d_model, nhead, num_layers, num_layers
+        )
         self.fc = nn.Linear(d_model, output_dim)
 
     def forward(self, x):
@@ -104,9 +106,12 @@ class TransformerParticleSwarmOptimization(nn.Module):
         self.global_best_weight = global_best_weight
 
         # Representing particles using model parameters
-        param_size = sum(p.numel() for p in model_constructor(*model_args).parameters())
+        param_size = sum(
+            p.numel() for p in model_constructor(*model_args).parameters()
+        )
         self.particles = [
-            self.model_constructor(*model_args).to(device) for _ in range(n_particles)
+            self.model_constructor(*model_args).to(device)
+            for _ in range(n_particles)
         ]
         self.velocities = [
             torch.zeros((param_size,)).to(device) for _ in range(n_particles)
@@ -153,7 +158,9 @@ class TransformerParticleSwarmOptimization(nn.Module):
                 ) + self.global_best_weight * torch.rand_like(param) * (
                     self.global_best[name].to(self.device) - param.data
                 )
-                self.velocities[idx] += self.inertia * self.velocities[idx] + delta
+                self.velocities[idx] += (
+                    self.inertia * self.velocities[idx] + delta
+                )
                 param.data += self.velocities[idx]
 
     def optimize(self, iterations=1000):

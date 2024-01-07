@@ -95,7 +95,13 @@ class Particle(nn.Module):
 
 class MultiSwarmOptimizer:
     def __init__(
-        self, particle, num_particles, num_subswarms, fitness_func, bounds, num_epochs
+        self,
+        particle,
+        num_particles,
+        num_subswarms,
+        fitness_func,
+        bounds,
+        num_epochs,
     ):
         self.particle = particle
         self.num_particles = num_particles
@@ -106,7 +112,9 @@ class MultiSwarmOptimizer:
 
         self.subswarms = []
         for _ in range(num_subswarms):
-            self.subswarms.append([deepcopy(particle) for _ in range(num_particles)])
+            self.subswarms.append(
+                [deepcopy(particle) for _ in range(num_particles)]
+            )
 
     def optimize(self):
         for epoch in range(self.num_epochs):
@@ -122,10 +130,13 @@ class MultiSwarmOptimizer:
                     particle.velocity = (
                         particle.velocity
                         + 0.5 * (particle.best_position - particle.position)
-                        + 0.5 * (best_particle.best_position - particle.position)
+                        + 0.5
+                        * (best_particle.best_position - particle.position)
                     )
                     particle.position = particle.position + particle.velocity
-                    particle.position = torch.clamp(particle.position, *self.bounds)
+                    particle.position = torch.clamp(
+                        particle.position, *self.bounds
+                    )
 
             best_subswarm = max(
                 self.subswarms, key=lambda s: max(p.best_fitness for p in s)

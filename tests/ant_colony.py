@@ -16,7 +16,9 @@ class TestAntColonyOptimization(unittest.TestCase):
         self.assertEqual(self.aco.pheromones.tolist(), [1.0] * 1000)
 
     def test_fitness(self):
-        solution = torch.tensor([ord(c) for c in "Hello ACO"], dtype=torch.float32)
+        solution = torch.tensor(
+            [ord(c) for c in "Hello ACO"], dtype=torch.float32
+        )
         self.assertEqual(
             self.aco.fitness(solution).item(), 0
         )  # Should be maximum fitness

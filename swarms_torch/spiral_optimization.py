@@ -53,7 +53,9 @@ class SPO:
 
         # Initializing the search points and center randomly
         # Note: 32-126 is the ASCII range for all printable characters
-        self.points = torch.randint(32, 127, (self.m, self.n_dim), dtype=torch.float32)
+        self.points = torch.randint(
+            32, 127, (self.m, self.n_dim), dtype=torch.float32
+        )
         self.center = torch.randint(32, 127, (self.n_dim,), dtype=torch.float32)
 
     def _step_rate(self, k):

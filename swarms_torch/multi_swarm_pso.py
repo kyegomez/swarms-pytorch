@@ -96,7 +96,10 @@ class MultiSwarmPSO:
     def optimize(self):
         """Optimizes the fitness function"""
         sub_swarms = [
-            [self.generate_random_string() for _ in range(self.num_particles_per_swarm)]
+            [
+                self.generate_random_string()
+                for _ in range(self.num_particles_per_swarm)
+            ]
             for _ in range(self.num_sub_swarms)
         ]
 
@@ -105,7 +108,9 @@ class MultiSwarmPSO:
                 for particle in sub_swarm:
                     fitness = self.fitness_function(particle)
                     if fitness > 0:
-                        index_to_change = random.randint(0, self.num_dimensions - 1)
+                        index_to_change = random.randint(
+                            0, self.num_dimensions - 1
+                        )
                         new_char = random.choice(string.ascii_lowercase + " ")
                         new_position = list(particle)
                         new_position[index_to_change] = new_char
@@ -126,8 +131,9 @@ class MultiSwarmPSO:
                 if self.fitness_function(particle) == global_best_fitness
             ][0]
             print(
-                f"Iteration {iteration}: Global Best Fitness = {global_best_fitness},"
-                f" Global Best Position = {global_best_position}"
+                f"Iteration {iteration}: Global Best Fitness ="
+                f" {global_best_fitness}, Global Best Position ="
+                f" {global_best_position}"
             )
 
         global_best_fitness = max(
@@ -142,8 +148,8 @@ class MultiSwarmPSO:
             if self.fitness_function(particle) == global_best_fitness
         ][0]
         print(
-            f"Final Result: Global Best Fitness = {global_best_fitness}, Global Best"
-            f" Position = {global_best_position}"
+            f"Final Result: Global Best Fitness = {global_best_fitness}, Global"
+            f" Best Position = {global_best_position}"
         )
 
 
