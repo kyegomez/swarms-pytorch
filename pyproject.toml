@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "swarms-torch"
-version = "0.1.6"
+version = "0.1.8"
 description = "swarms-torch - Pytorch"
 license = "MIT"
 authors = ["Kye Gomez <kye@apac.ai>"]
@@ -29,9 +29,10 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-torch = "*"
-einops = "*"
-zetascale = "*"
+torch = "2.1.2"
+einops = "0.7.0"
+zetascale = "1.4.4"
+pytest = "7.4.2"
 
 
 
