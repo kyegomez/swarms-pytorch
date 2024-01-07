@@ -61,9 +61,3 @@ class MAgent:
                     optimizer.zero_grad()
                     loss.backward()
                     optimizer.step()
-
-
-# # Example usage:
-# num_agents = 5
-# simulation = MAgent.MultiGymEnvironment("CartPole-v1", num_agents)
-# simulation.train()

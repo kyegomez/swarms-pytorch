@@ -2,7 +2,7 @@
 Swarmalators with transformer models, SUPER EXPERIMENTAL, NEEDS WORK
 """
 import torch
-import torch.nn as nn
+from torch import nn
 
 
 class SwarmalatorModel(nn.Module):

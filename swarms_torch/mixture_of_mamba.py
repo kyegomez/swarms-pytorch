@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from zeta.nn import MambaBlock, Mamba
+from zeta.nn import MambaBlock
 
 
 class MixtureOfMambas(nn.Module):
@@ -44,7 +44,7 @@ class MixtureOfMambas(nn.Module):
         fusion_method: str = "average",
         custom_fusion_func: callable = None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super(MixtureOfMambas, self).__init__()
         self.num_mambas = num_mambas
@@ -59,13 +59,7 @@ class MixtureOfMambas(nn.Module):
         self.models = nn.ModuleList()
         for _ in range(num_mambas):
             mamba_model = MambaBlock(
-                dim,
-                depth,
-                d_state,
-                expand,
-                d_conv,
-                *args,
-                **kwargs
+                dim, depth, d_state, expand, d_conv, *args, **kwargs
             )
             self.models.append(mamba_model)
 
@@ -95,7 +89,8 @@ class MixtureOfMambas(nn.Module):
         elif self.fusion_method == "custom":
             if self.custom_fusion_func is None:
                 raise ValueError(
-                    "custom_fusion_func must be provided if fusion_method is custom"
+                    "custom_fusion_func must be provided if fusion_method is"
+                    " custom"
                 )
             return self.custom_fusion_func(outputs, weights)
         else:
@@ -133,7 +128,7 @@ class MixtureOfMambas(nn.Module):
             weight * output for weight, output in zip(weights, outputs)
         ]
         return sum(weighted_outputs)
-    
+
     def softmax_aggregate(self, outputs, weights):
         """Weighted average the outputs of the models in the swarm
 
@@ -159,7 +154,7 @@ class MixtureOfMambas(nn.Module):
             out = torch.softmax(outputs, dim=1)
 
         return out
-        
+
     def absmax(self, outputs):
         """Absolute maximum of the outputs of the models in the swarm
 
@@ -171,8 +166,8 @@ class MixtureOfMambas(nn.Module):
         """
         # Absolute maximum of the outputs of the models in the swarm
         return torch.max(torch.abs(torch.stack(outputs)), dim=0)[0]
-    
-    def absmax_aggregate(self, outputs, weights = None):
+
+    def absmax_aggregate(self, outputs, weights=None):
         """
         Weighted average the outputs of the models in the swarm
 
@@ -188,7 +183,7 @@ class MixtureOfMambas(nn.Module):
         """
         # if weights is not None or len(weights) != len(outputs):
         #     raise ValueError("Weights must be the same length as outputs")
-        
+
         if weights:
             weighted_outputs = [
                 weight * output for weight, output in zip(weights, outputs)

@@ -2,15 +2,7 @@ torch
 einops
 pandas
 zetascale
-mamba-ssm
-causal-conv1d 
 pytest
-
-
-
-
-
-
 
 mkdocs
 mkdocs-material
