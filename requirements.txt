@@ -1,6 +1,6 @@
 torch==2.1.2
 einops==0.7.0
-pandas==1.5.3
+pandas==2.1.4
 zetascale==1.4.4
 pytest==7.4.2
 mkdocs
