@@ -1,12 +1,10 @@
 [![Multi-Modality](agorabanner.png)](https://discord.gg/qUtxnK2NMf)
 
 # Swarms in Torch
-Swarms in Torch is an experimental repository designed to cater to your swarming algorithm needs. With a range of useful algorithms including Particle Swarm Optimization (PSO), Ant Colony, Sakana, and more, all implemented using PyTorch primitives, you can easily leverage the power of swarming techniques in your projects.
+Swarms in Torch exclusivley hosts a vast array of 100% novel swarming models. Our purpose for this repo is to create, optimize, and train novel foundation models that outperform the status quo of model architectures such as the Transformer and SSM model architectures. We provide implementations of various novel models like PSO with transformers as particles, ant colony with transformers as ants, a basic NN with transformers as neurons, Mixture of Mambas and many more. If you would like to help contribute to the future of AI model architecture's please join Agora, the open source lab here. And, if you have any idea's please submit them as issues and notify me.
 
 
 ## Installation
-
-You can install the package using pip
 
 ```bash
 pip3 install swarms-torch
