@@ -140,7 +140,7 @@ print(model(x).shape)
 # Documentation
 - [Click here for documentation](https://swarmstorch.readthedocs.io/en/latest/swarms/)
 
-# Playground
+# Examples
 - There are various scripts in the playground folder with various examples for each swarm, like ant colony and fish school and spiral optimization.
 
 # Todo
@@ -149,6 +149,8 @@ print(model(x).shape)
 - Create hivemind model for robotics, 1 model that takes in X inputs from N robots and distributes tasks to individual or many robots
 - Swarm of liquid nets for text sequence modeling or vision
 - Swarm of Convnets for facial recognition?
+- Swarm of resnet
+- Make various swarm architecture backbone's so it's plug in and play like parallel, basic neural network style, fish school.
 - Swarm of transformers where each transformer is an expert and they all share the same weights so they can see each others knowledge, but inference is local.
 
 # License
