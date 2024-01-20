@@ -1,9 +1,10 @@
-import torch 
-from torch import nn 
+import torch
+from torch import nn
 from typing import List
 
+
 class ParallelSwarm(nn.Module):
-    def __Init__(
+    def __init__(
         self,
         models: List[nn.Module],
     ):
@@ -16,10 +17,10 @@ class ParallelSwarm(nn.Module):
         """
         super().__init__()
         self.models = models
-        
+
         for model in models:
             self.model = model
-            
+
     def forward(self, x: torch.Tensor, *args, **kwargs):
         """Forward pass of the swarm
 

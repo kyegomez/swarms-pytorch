@@ -1,5 +1,6 @@
 from torch import nn
 
+
 def fish(dim: int, mult: int = 4):
     return nn.Sequential(
         nn.Linear(dim, dim * mult),

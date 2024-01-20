@@ -2,6 +2,7 @@ import torch
 from torch import nn, Tensor
 from zeta.nn import MambaBlock
 
+
 def router(
     x: Tensor,
     k: int,
@@ -12,31 +13,30 @@ def router(
     dropout_p: float = 0.2,
     dim: int = -1,
     *args,
-    **kwargs
+    **kwargs,
 ):
     # If experts is None, then we use the default topk function
     topk = torch.topk(x, k, largest=largest, *args, **kwargs)
-    
+
     # Adaptive log softmax with loss
     # softmax = nn.LogSoftmax(dim)
     # topk = softmax(x)
-    
+
     # Dropout
     if dropout_on:
         dropout = nn.Dropout(dropout_p)
         topk = dropout(topk)
-    
+
     # If limit_of_experts is not None, then we only send the topk to the
     # experts. This is useful when we want to limit the number of experts
     # that we send the topk to.
     if limit_of_experts is not None:
         experts = experts[:limit_of_experts]
-    
+
     # Send the topk to the experts
     if experts is not None:
         topk = [expert(topk) for expert in experts]
     return topk
-
 
 
 class MixtureOfMambas(nn.Module):
