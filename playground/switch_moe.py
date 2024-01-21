@@ -1,4 +1,4 @@
-import torch 
+import torch
 from swarms_torch import SwitchMoE
 
 # Example usage:
