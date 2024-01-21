@@ -200,15 +200,40 @@ print(output)
 # Examples
 - There are various scripts in the playground folder with various examples for each swarm, like ant colony and fish school and spiral optimization.
 
-# Todo
-- [Check out the project board](https://github.com/users/kyegomez/projects/9/views/1)
-- Make training scripts for each model on enwiki 8
-- Create hivemind model for robotics, 1 model that takes in X inputs from N robots and distributes tasks to individual or many robots
-- Swarm of liquid nets for text sequence modeling or vision
-- Swarm of Convnets for facial recognition?
-- Swarm of resnet
-- Make various swarm architecture backbone's so it's plug in and play like parallel, basic neural network style, fish school.
-- Swarm of transformers where each transformer is an expert and they all share the same weights so they can see each others knowledge, but inference is local.
+
+## 🫶 Contributions:
+
+The easiest way to contribute is to pick any issue with the `good first issue` tag 💪. Read the Contributing guidelines [here](/CONTRIBUTING.md). Bug Report? [File here](https://github.com/swarms/gateway/issues) | Feature Request? [File here](https://github.com/swarms/gateway/issues)
+
+Swarms is an open-source project, and contributions are VERY welcome. If you want to contribute, you can create new features, fix bugs, or improve the infrastructure. Please refer to the [CONTRIBUTING.md](https://github.com/kyegomez/swarms-pytorch/blob/master/CONTRIBUTING.md) and our [contributing board](https://github.com/users/kyegomez/projects/9) to participate in Roadmap discussions!
+
+<a href="https://github.com/kyegomez/swarms-pytorch/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=kyegomez/swarms-pytorch" />
+</a>
+
+----
+
+## Community
+
+Join our growing community around the world, for real-time support, ideas, and discussions on Swarms 😊 
+
+- View our official [Blog](https://swarms.apac.ai)
+- Chat live with us on [Discord](https://discord.gg/kS3rwKs3ZC)
+- Follow us on [Twitter](https://twitter.com/kyegomez)
+- Connect with us on [LinkedIn](https://www.linkedin.com/company/the-swarm-corporation)
+- Visit us on [YouTube](https://www.youtube.com/channel/UC9yXyitkbU_WSy7bd_41SqQ)
+- [Join the Swarms community on Discord!](https://discord.gg/AJazBmhKnr)
+- Join our Swarms Community Gathering every Thursday at 1pm NYC Time to unlock the potential of autonomous agents in automating your daily tasks [Sign up here](https://lu.ma/5p2jnc2v)
+
+---
+
+## Discovery Call
+Book a discovery call to learn how Swarms can lower your operating costs by 40% with swarms of autonomous agents in lightspeed. [Click here to book a time that works for you!](https://calendly.com/swarm-corp/30min?month=2023-11)
+
+## Accelerate Backlog
+Help us accelerate our backlog by supporting us financially! Note, we're an open source corporation and so all the revenue we generate is through donations at the moment ;)
+
+<a href="https://polar.sh/kyegomez"><img src="https://polar.sh/embed/fund-our-backlog.svg?org=kyegomez" /></a>
 
 # License
 MIT
