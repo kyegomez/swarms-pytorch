@@ -12,7 +12,7 @@ from swarms_torch.transformer_pso import (
     Particle,
     TransformerParticleSwarmOptimization,
 )
-from swarms_torch.structs import * # noqa
+from swarms_torch.structs import *  # noqa
 
 __all__ = [
     "ParticleSwarmOptimization",

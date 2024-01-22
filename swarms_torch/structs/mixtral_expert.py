@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class SwiGLU(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
         super(SwiGLU, self).__init__()
@@ -10,6 +11,7 @@ class SwiGLU(nn.Module):
 
     def forward(self, x):
         return self.fc2(F.silu(self.fc1(x)))
+
 
 class TopKGate(nn.Module):
     def __init__(self, model_dim, num_experts, top_k):
@@ -20,21 +22,30 @@ class TopKGate(nn.Module):
     def forward(self, x):
         gate_logits = self.w_gate(x)
         top_logits, top_indices = torch.topk(gate_logits, self.top_k, dim=-1)
-        top_k_logits = torch.full_like(gate_logits, float('-inf'))
+        top_k_logits = torch.full_like(gate_logits, float("-inf"))
         top_k_logits.scatter_(1, top_indices, top_logits)
         return F.softmax(top_k_logits, dim=-1)
+
 
 class MoE(nn.Module):
     def __init__(self, model_dim, hidden_dim, num_experts, top_k):
         super(MoE, self).__init__()
-        self.experts = nn.ModuleList([SwiGLU(model_dim, hidden_dim, model_dim) for _ in range(num_experts)])
+        self.experts = nn.ModuleList(
+            [
+                SwiGLU(model_dim, hidden_dim, model_dim)
+                for _ in range(num_experts)
+            ]
+        )
         self.gate = TopKGate(model_dim, num_experts, top_k)
 
     def forward(self, x):
         gate_scores = self.gate(x)
-        expert_outputs = torch.stack([expert(x) for expert in self.experts], dim=2)
+        expert_outputs = torch.stack(
+            [expert(x) for expert in self.experts], dim=2
+        )
         weighted_expert_outputs = gate_scores.unsqueeze(-1) * expert_outputs
         return weighted_expert_outputs.sum(dim=2)
+
 
 # Model architecture parameters
 model_dim = 4096
