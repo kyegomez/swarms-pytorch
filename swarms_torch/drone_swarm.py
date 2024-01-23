@@ -2,6 +2,90 @@ import torch
 from torch import nn, Tensor
 from dataclasses import dataclass
 from zeta.nn import FeedForward
+from typing import Any
+import torch.nn.functional as F
+
+
+OBST_COLOR_3 = (0.0, 0.5, 0.0)
+OBST_COLOR_4 = (0.0, 0.5, 0.0, 1.0)
+
+
+QUADS_OBS_REPR = {
+    "xyz_vxyz_R_omega": 18,
+    "xyz_vxyz_R_omega_floor": 19,
+    "xyz_vxyz_R_omega_wall": 24,
+}
+
+QUADS_NEIGHBOR_OBS_TYPE = {
+    "none": 0,
+    "pos_vel": 6,
+}
+
+QUADS_OBSTACLE_OBS_TYPE = {
+    "none": 0,
+    "octomap": 9,
+}
+
+
+@dataclass
+class OneHeadAttention(nn.Module):
+    """
+    OneHeadAttention module performs self-attention operation on input tensors.
+
+    Args:
+        dim (int): The dimension of the input tensors.
+
+    Attributes:
+        w_qs (nn.Linear): Linear layer for queries transformation.
+        w_ks (nn.Linear): Linear layer for keys transformation.
+        w_vs (nn.Linear): Linear layer for values transformation.
+        fc (nn.Linear): Linear layer for final transformation.
+        ln (nn.LayerNorm): Layer normalization for output.
+
+    Methods:
+        forward(q, k, v): Performs forward pass of the self-attention operation.
+
+    """
+
+    dim: int
+
+    def __post_init_(self):
+        self.w_qs = nn.Linear(self.dim, self.dim, bias=False)
+        self.w_ks = nn.Linear(self.dim, self.dim, bias=False)
+        self.w_vs = nn.Linear(self.dim, self.dim, bias=False)
+
+        self.fc = nn.Linear(self.dim, self.dim, bias=False)
+        self.ln = nn.LayerNorm(self.dim, eps=1e-6)
+
+    def forward(self, q, k, v):
+        """
+        Performs forward pass of the self-attention operation.
+
+        Args:
+            q (torch.Tensor): The query tensor.
+            k (torch.Tensor): The key tensor.
+            v (torch.Tensor): The value tensor.
+
+        Returns:
+            q (torch.Tensor): The output tensor after self-attention operation.
+            attn (torch.Tensor): The attention weights.
+
+        """
+        residual = q
+
+        # Pre attn ops
+        q = self.w_qs(q)
+        k = self.w_ks(k)
+        v = self.w_vs(v)
+
+        # Compute attention weights using queries and keys
+        attn = torch.matmul(q / (self.dim**-0.5), k.tranpose(-1, -2))
+        attn = F.softmax(attn, dim=-1)
+        q = torch.matmul(attn, v)
+        q = self.fc(q)
+        q += residual
+        q = self.ln(q)
+        return q, attn
 
 
 def estimate_neuron_score(act):
@@ -224,3 +308,64 @@ class SwarmNeighborEncoderMLP(SwarmNeighborhoodEncoder):
         ]
         final_neighborhood_embedding = self.neighbor_mlp(obs_neighbors)
         return final_neighborhood_embedding
+
+
+@dataclass
+class SwarmMultiHeadAttention(SwarmMultiHeadAttentionEncoder):
+    obs_space: int
+    quads_obs_repr: Any
+    neighbor_hidden_size: int
+    quads_neighbor_hidden_size: int
+    use_obstacles: Any
+    quads_use_obstacles: Any
+    quads_neighbor_visible_num: int
+    num_use_neighbor_obs: int
+    quads_num_agents: int
+    quads_neighbor_obs_type: Any
+    rnn_size: int
+
+    def __post_init__(self):
+        if self.quads_obs_repr in QUADS_OBS_REPR:
+            self.self_obs_dim = QUADS_OBS_REPR[self.quads_obs_repr]
+        else:
+            raise NotImplementedError(
+                f"Unknown observation representation {self.quads_obs_repr}"
+            )
+
+        self.neighborbor_hidden_size = self.quads_neighbor_hidden_size
+        self.use_obstacles = self.quads_use_obstacles
+
+        if self.quads_neighbor_visible_num == 1:
+            self.num_use_neighbor_obs = self.quads_num_agents - 1
+        else:
+            self.num_use_neighbor_obs = self.quads_neighbor_visible_num
+
+        self.neighbor_obs_dim = QUADS_NEIGHBOR_OBS_TYPE[
+            self.quads_neighbor_obs_type
+        ]
+        self.all_neighbor_obs_dim = (
+            self.neighbor_obs_dim * self.num_use_neighbor_obs
+        )
+
+        self.self_embed_layer = nn.Sequential(
+            nn.Linear(self.self_obs_dim, self.rnn_size),
+            nn.ReLU(),
+        )
+        self.neighbor_embed_layer = nn.Sequential(
+            nn.Linear(self.all_neighbor_obs_dim, self.rnn_size),
+            nn.ReLU(),
+        )
+        self.obstacle_obs_dim = QUADS_OBSTACLE_OBS_TYPE[
+            self.quads_obstacle_obs_type
+        ]
+        self.obstacle_embed_layer = nn.Sequential(
+            nn.Linear(self.obstacle_obs_dim, self.rnn_size),
+            nn.ReLU(),
+        )
+        self.attn = OneHeadAttention(self.rnn_size)
+        self.encoder_output_size = self.rnn_size
+
+        self.ffn = FeedForward(
+            3 * self.rnn_size,
+            self.encoder_output_size,
+        )
