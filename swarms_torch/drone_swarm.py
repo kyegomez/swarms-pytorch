@@ -309,9 +309,12 @@ class SwarmNeighborEncoderMLP(SwarmNeighborhoodEncoder):
         final_neighborhood_embedding = self.neighbor_mlp(obs_neighbors)
         return final_neighborhood_embedding
 
+@dataclass
+class SwarmMultiHeadAttentionEncoder(nn.Module):
+    dim: int
 
 @dataclass
-class SwarmMultiHeadAttention(SwarmMultiHeadAttentionEncoder):
+class QuadSingleHeadAttentionEncoderSim2Real(SwarmMultiHeadAttentionEncoder):
     obs_space: int
     quads_obs_repr: Any
     neighbor_hidden_size: int
