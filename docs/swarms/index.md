@@ -1,179 +1,199 @@
-# Swarms in Torch
-A home for swarming algorithms like PSO, Ant Colony, Sakana, and more in PyTorch primitives through an emphasis on use-ability, reliability, and performance.
+# Swarms Installation Guide
 
-## Installation
+<div align="center">
+  <p>
+    <a align="center" href="" target="_blank">
+      <img
+        width="850"
+        src="https://github.com/kyegomez/swarms/raw/master/images/swarmslogobanner.png"
+      >
+    </a>
+  </p>
+</div>
 
-You can install the package using pip
+You can install `swarms` with pip in a
+[**Python>=3.10**](https://www.python.org/) environment.
 
-```bash
-pip3 install swarms-torch
-```
+## Prerequisites
 
-# Usage
-- We have just PSO now, but we're adding in ant colony and others!
+Before you begin, ensure you have the following installed:
 
-```python
-from swarms_torch import ParticleSwarmOptimization
+- Python 3.10 or higher: [Download Python](https://www.python.org/)
+- pip (specific version recommended): `pip >= 21.0`
+- git (for cloning the repository): [Download Git](https://git-scm.com/)
 
-#test
-pso = ParticleSwarmOptimization(goal="Attention is all you need", n_particles=100)
-pso.optimize(iterations=1000)
-```
+## Installation Options
 
-- Ant Colony Optimization
-```python
-from swarms_torch.ant_colony_swarm import AntColonyOptimization
+=== "pip (Recommended)"
 
-# Usage:
-goal_string = "Hello ACO"
-aco = AntColonyOptimization(goal_string, num_iterations=1000)
-best_solution = aco.optimize()
-print("Best Matched String:", best_solution)
+    #### Headless Installation
 
-```
+    The headless installation of `swarms` is designed for environments where graphical user interfaces (GUI) are not needed, making it more lightweight and suitable for server-side applications.
 
-# Todo
-Here are 10 swarming neural network algorithms, with brief overviews, algorithmic pseudocode, and potential use cases for each:
+    ```bash
+    pip3 install swarms-torch
+    ```
 
-1. **Particle Swarm Optimization (PSO)**
-    - **Overview**: Simulates the social behavior of birds flocking or fish schooling. It adjusts trajectories of individual agents (particles) based on their own and their neighbors' best known positions.
-    - **Pseudocode**:
-        ```
-        Initialize each particle with random position and velocity
-        while not converged:
-            for each particle:
-                calculate fitness value
-                if fitness better than its best, update its best
-            end for
-            for each particle:
-                update velocity towards its best and global best
-                update position
-            end for
-        end while
-        ```
-    - **Use Cases**: Function optimization, neural network training, feature selection.
+=== "Development Installation"
 
-2. **Ant Colony Optimization (ACO)**
-    - **Overview**: Simulates the foraging behavior of ants to find paths through graphs. Uses pheromones to mark good paths, which evaporate over time.
-    - **Pseudocode**:
-        ```
-        Initialize pheromones on paths
-        while not converged:
-            deploy ants to find paths based on pheromone strengths
-            update pheromone strengths based on quality of paths
-            evaporate some pheromone
-        end while
-        ```
-    - **Use Cases**: Path finding, traveling salesman problem, network routing.
+    === "Using virtualenv"
 
-3. **Bee Algorithm (BA)**
-    - **Overview**: Simulates the behavior of honey bees finding optimal nectar sources.
-    - **Pseudocode**:
-        ```
-        Initialize scout bees randomly
-        while not converged:
-            deploy scout bees to search for nectar
-            recruit forager bees based on nectar quality
-            more foragers for better nectar sources
-        end while
-        ```
-    - **Use Cases**: Job scheduling, function optimization, image processing.
+        1. **Clone the repository and navigate to the root directory:**
 
-4. **Firefly Algorithm (FA)**
-    - **Overview**: Based on the flashing behavior of fireflies. Fireflies are attracted to each other depending on the brightness of their flashing.
-    - **Pseudocode**:
-        ```
-        Initialize fireflies randomly
-        while not converged:
-            for each firefly:
-                move towards brighter fireflies
-            end for
-        end while
-        ```
-    - **Use Cases**: Multi-modal optimization, feature selection, clustering.
+            ```bash
+            git clone https://github.com/kyegomez/swarms-pytorch
+            cd swarms
+            ```
 
-5. **Bat Algorithm (BA)**
-    - **Overview**: Inspired by the echolocation behavior of bats. Bats fly randomly and adjust positions based on emitted and returned echoes.
-    - **Pseudocode**:
-        ```
-        Initialize bats with random positions and velocities
-        while not converged:
-            for each bat:
-                adjust velocity based on echolocation feedback
-                move bat
-            end for
-        end while
-        ```
-    - **Use Cases**: Engineering design, tuning machine learning algorithms, scheduling.
+        2. **Setup Python environment and activate it:**
 
-6. **Wolf Search Algorithm (WSA)**
-    - **Overview**: Models the hunting behavior of gray wolves.
-    - **Pseudocode**:
-        ```
-        Initialize wolves
-        while not converged:
-            calculate fitness of all wolves
-            rank wolves: alpha, beta, delta, and omega
-            adjust position of omega wolves towards alpha, beta, and delta
-        end while
-        ```
-    - **Use Cases**: Neural network training, function optimization, game AI.
+            ```bash
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            ```
 
-7. **Fish School Search (FSS)**
-    - **Overview**: Simulates the social behavior of fish schooling.
-    - **Pseudocode**:
-        ```
-        Initialize fish randomly in search space
-        while not converged:
-            for each fish:
-                if neighbor has better food, move towards it
-                else explore randomly
-            end for
-            adjust school behavior based on total food
-        end while
-        ```
-    - **Use Cases**: Load balancing, function optimization, robotics.
+        3. **Install Swarms:**
 
-8. **Cuckoo Search (CS)**
-    - **Overview**: Based on the reproduction strategy of cuckoos. They lay eggs in host bird nests and those nests with the best eggs (solutions) will carry on to the next generation.
-    - **Pseudocode**:
-        ```
-        Initialize host nests with eggs (solutions)
-        while not converged:
-            lay new eggs by Levy flights
-            if new egg better than the worst in nest, replace it
-            discover a fraction of nests and lay new eggs
-        end while
-        ```
-    - **Use Cases**: Engineering design optimization, image processing, numerical optimization.
+            - Headless install:
 
-9. **Whale Optimization Algorithm (WOA)**
-    - **Overview**: Simulates the bubble-net hunting strategy of humpback whales.
-    - **Pseudocode**:
-        ```
-        Initialize whales
-        while not converged:
-            for each whale:
-                encircle prey or search using bubble-net approach
-            end for
+                ```bash
+                pip install -e .
+                ```
 
+            - Desktop install:
 
-        end while
-        ```
-    - **Use Cases**: Structural optimization, neural network training, function optimization.
+                ```bash
+                pip install -e .[desktop]
+                ```
 
-10. **Grasshopper Optimization Algorithm (GOA)**
-    - **Overview**: Simulates the swarming behavior of grasshoppers towards food sources.
-    - **Pseudocode**:
-        ```
-        Initialize grasshoppers
-        while not converged:
-            for each grasshopper:
-                adjust position towards other grasshoppers based on distance and food source
-            end for
-        end while
-        ```
-    - **Use Cases**: Job scheduling, clustering, neural network training.
+    === "Using Anaconda"
 
-# License
-MIT
+        1. **Create and activate an Anaconda environment:**
+
+            ```bash
+            conda create -n swarms python=3.10
+            conda activate swarms
+            ```
+
+        2. **Clone the repository and navigate to the root directory:**
+
+            ```bash
+            git clone https://github.com/kyegomez/swarms-pytorch
+            cd swarms
+            ```
+
+        3. **Install Swarms:**
+
+            - Headless install:
+
+                ```bash
+                pip install -e .
+                ```
+
+            - Desktop install:
+
+                ```bash
+                pip install -e .[desktop]
+                ```
+
+    === "Using Poetry"
+
+        1. **Clone the repository and navigate to the root directory:**
+
+            ```bash
+            git clone https://github.com/kyegomez/swarms-pytorch
+            cd swarms
+            ```
+
+        2. **Setup Python environment and activate it:**
+
+            ```bash
+            poetry env use python3.10
+            poetry shell
+            ```
+
+        3. **Install Swarms:**
+
+            - Headless install:
+
+                ```bash
+                poetry install
+                ```
+
+            - Desktop install:
+
+                ```bash
+                poetry install --extras "desktop"
+                ```
+
+=== "CI/CD Pipelines"
+
+    Integrating Swarms into your CI/CD pipeline ensures automated testing and deployment.
+
+    #### Using GitHub Actions
+
+    ```yaml
+    # .github/workflows/ci.yml
+    name: CI
+
+    on:
+      push:
+        branches: [ main ]
+      pull_request:
+        branches: [ main ]
+
+    jobs:
+      build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v2
+        - name: Set up Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.10
+        - name: Install dependencies
+          run: |
+            python -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+            pip install -e .
+        - name: Run tests
+          run: |
+            source venv/bin/activate
+            pytest
+    ```
+
+    #### Using Jenkins
+
+    ```groovy
+    pipeline {
+        agent any
+
+        stages {
+            stage('Clone repository') {
+                steps {
+                    git 'https://github.com/kyegomez/swarms-pytorch'
+                }
+            }
+            stage('Setup Python') {
+                steps {
+                    sh 'python3 -m venv venv'
+                    sh 'source venv/bin/activate && pip install --upgrade pip'
+                }
+            }
+            stage('Install dependencies') {
+                steps {
+                    sh 'source venv/bin/activate && pip install -e .'
+                }
+            }
+            stage('Run tests') {
+                steps {
+                    sh 'source venv/bin/activate && pytest'
+                }
+            }
+        }
+    }
+    ```
