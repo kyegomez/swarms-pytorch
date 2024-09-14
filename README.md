@@ -1,6 +1,10 @@
 [![Multi-Modality](agorabanner.png)](https://discord.gg/qUtxnK2NMf)
 
-# Swarms in Torch
+# Novel Swarm Intelligence Model Architectures
+
+[![Join our Discord](https://img.shields.io/badge/Discord-Join%20our%20server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/agora-999382051935506503) [![Subscribe on YouTube](https://img.shields.io/badge/YouTube-Subscribe-red?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@kyegomez3242) [![Connect on LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kye-g-38759a207/) [![Follow on X.com](https://img.shields.io/badge/X.com-Follow-1DA1F2?style=for-the-badge&logo=x&logoColor=white)](https://x.com/kyegomezb)
+
+
 Swarms in Torch exclusivley hosts a vast array of 100% novel swarming models. Our purpose for this repo is to create, optimize, and train novel foundation models that outperform the status quo of model architectures such as the Transformer and SSM model architectures. We provide implementations of various novel models like PSO with transformers as particles, ant colony with transformers as ants, a basic NN with transformers as neurons, Mixture of Mambas and many more. If you would like to help contribute to the future of AI model architecture's please join Agora, the open source lab here. And, if you have any idea's please submit them as issues and notify me.
 
 
@@ -193,6 +197,10 @@ output = moe(x)
 print(output)
 ```
 
+### Firefly
+
+
+
 
 # Documentation
 - [Click here for documentation](https://swarmstorch.readthedocs.io/en/latest/swarms/)
@@ -224,11 +232,6 @@ Join our growing community around the world, for real-time support, ideas, and d
 - Visit us on [YouTube](https://www.youtube.com/channel/UC9yXyitkbU_WSy7bd_41SqQ)
 - [Join the Swarms community on Discord!](https://discord.gg/AJazBmhKnr)
 - Join our Swarms Community Gathering every Thursday at 1pm NYC Time to unlock the potential of autonomous agents in automating your daily tasks [Sign up here](https://lu.ma/5p2jnc2v)
-
----
-
-## Discovery Call
-Book a discovery call to learn how Swarms can lower your operating costs by 40% with swarms of autonomous agents in lightspeed. [Click here to book a time that works for you!](https://calendly.com/swarm-corp/30min?month=2023-11)
 
 ## Accelerate Backlog
 Help us accelerate our backlog by supporting us financially! Note, we're an open source corporation and so all the revenue we generate is through donations at the moment ;)
