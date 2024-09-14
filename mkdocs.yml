@@ -68,13 +68,11 @@ nav:
 - Home:
     - Overview: "index.md"
     - Contributing: "contributing.md"
-- Swarms:
     - Overview: "swarms/index.md"
+    - Purpose: "swarms/purpose.md"
     - swarms_torch:
       - ParticleSwarmOptimization: "swarms/pso.md"
       - AntColonyOptimization: "swarms/aco.md"
       - QueenBeeGa: "swarms/qb.md"
       - SpiralOptimization: "swarms/so.md"
-- Examples:
-    - Overview: "examples/index.md"
-    - FlashAttention: "examples/nn/attentions/flash.md"
+      - FireflyOptimizer: "swarms/firefly.md"
