@@ -131,13 +131,12 @@ markdown_extensions:
   - pymdownx.tilde
 nav:
 - Home:
-    - Overview: "index.md"
-    - Contributing: "contributing.md"
-    - Overview: "swarms/index.md"
-    - Purpose: "swarms/purpose.md"
-    - swarms_torch:
-      - ParticleSwarmOptimization: "swarms/pso.md"
-      - AntColonyOptimization: "swarms/aco.md"
-      - QueenBeeGa: "swarms/qb.md"
-      - SpiralOptimization: "swarms/so.md"
-      - FireflyOptimizer: "swarms/firefly.md"
+  - Installation: "swarms/index.md"
+  # - Contributing: "contributing.md"
+  - Purpose: "swarms/purpose.md"
+  - swarms_torch:
+    - ParticleSwarmOptimization: "swarms/pso.md"
+    - AntColonyOptimization: "swarms/aco.md"
+    - QueenBeeGa: "swarms/qb.md"
+    - SpiralOptimization: "swarms/so.md"
+    - FireflyOptimizer: "swarms/firefly.md"
