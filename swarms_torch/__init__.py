@@ -3,12 +3,12 @@ from swarms_torch.cellular_transformer import CellularSwarm
 from swarms_torch.fish_school import Fish, FishSchool
 from swarms_torch.hivemind_swarm_transformer import HivemindSwarm
 from swarms_torch.mixture_of_mamba import MixtureOfMambas
-from swarms_torch.multi_swarm_pso import MultiSwarmPSO
+from swarms_torch.pso.multi_swarm_pso import MultiSwarmPSO
 from swarms_torch.neuronal_transformer import NNTransformer
 from swarms_torch.particle_swarm import ParticleSwarmOptimization
 from swarms_torch.queen_bee import QueenBeeGa
 from swarms_torch.spiral_optimization import SPO
-from swarms_torch.transformer_pso import (
+from swarms_torch.pso.transformer_pso import (
     Particle,
     TransformerParticleSwarmOptimization,
 )

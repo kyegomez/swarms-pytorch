@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from swarms_torch.transformer_pso import (
+from swarms_torch.pso.transformer_pso import (
     SimpleTransformer,
     TransformerParticleSwarmOptimization,
 )

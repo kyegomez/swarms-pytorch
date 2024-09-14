@@ -52,9 +52,9 @@ extra:
     - icon: fontawesome/brands/discord
       link: https://discord.com/servers/agora-999382051935506503
 
-  analytics:
-    provider: google
-    property: G-MPE9C65596
+  # analytics:
+  #   provider: google
+  #   property: G-MPE9C65596
 
 theme:
     name: material
@@ -133,7 +133,7 @@ nav:
 - Home:
   - Installation: "swarms/index.md"
   # - Contributing: "contributing.md"
-  - Purpose: "swarms/purpose.md"
+  # - Purpose: "swarms/purpose.md"
   - swarms_torch:
     - ParticleSwarmOptimization: "swarms/pso.md"
     - AntColonyOptimization: "swarms/aco.md"
