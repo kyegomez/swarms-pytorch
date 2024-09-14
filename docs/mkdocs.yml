@@ -130,11 +130,12 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 nav:
+- Home:
+  - Welcome: "index.md"
   - Installation: "swarms/index.md"
   # - Contributing: "contributing.md"
   # - Purpose: "swarms/purpose.md"
   - Vision: "vision.md"
-  - Contributing: "contributing.md"
   - swarms_torch:
     - ParticleSwarmOptimization: "swarms/pso.md"
     - AntColonyOptimization: "swarms/aco.md"
