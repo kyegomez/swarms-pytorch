@@ -4,9 +4,10 @@ import einx  # s - species, p - population, i - population source, j - populatio
 import torch
 from loguru import logger
 from torch import Tensor
+from torch import nn
 
 
-class FireflyOptimizer:
+class FireflyOptimizer(nn.Module):
     def __init__(
         self,
         cost_function: Callable[[Tensor], Tensor],

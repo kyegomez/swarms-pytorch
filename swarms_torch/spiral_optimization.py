@@ -1,7 +1,8 @@
 import torch
+from torch import nn
 
 
-class SPO:
+class SPO(nn.Module):
     """
     Spiral Optimization (SPO) Algorithm in PyTorch.
 

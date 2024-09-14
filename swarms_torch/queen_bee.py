@@ -1,7 +1,8 @@
 import torch
+from torch import nn
 
 
-class QueenBeeGa:
+class QueenBeeGa(nn.Module):
     """
     Queen Bee evolution for genetic algos
 
