@@ -1,6 +1,7 @@
 """
 Swarmalators with transformer models, SUPER EXPERIMENTAL, NEEDS WORK
 """
+
 import torch
 from torch import nn
 

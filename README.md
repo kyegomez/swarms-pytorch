@@ -199,6 +199,27 @@ print(output)
 
 ### Firefly
 
+Exploration into the Firefly algorithm (a generalized version of particle swarm optimization) in Pytorch. In particular interested in hybrid <a href="https://academic.oup.com/jcde/article/9/2/706/6566441">firefly + genetic algorithms</a>, or ones that are <a href="https://www.sciencedirect.com/science/article/abs/pii/S0957417423005298">gender-based</a>. This code was adapted from lucidrains.
+
+```python
+from swarms_torch.firefly import FireflyOptimizer
+from torch import Tensor
+
+
+def rosenbrock(x: Tensor) -> Tensor:
+    return (
+        100 * (x[..., 1:] - x[..., :-1] ** 2) ** 2 + (1 - x[..., :-1]) ** 2
+    ).sum(dim=-1)
+
+
+if __name__ == "__main__":
+    optimizer = FireflyOptimizer(cost_function=rosenbrock)
+    optimizer.optimize()
+    best_solution = optimizer.get_best_solution()
+    print(f"Best solution: {best_solution}")
+
+```
+
 
 
 
@@ -240,3 +261,30 @@ Help us accelerate our backlog by supporting us financially! Note, we're an open
 
 # License
 MIT
+
+
+## Citations
+
+```bibtex
+@article{Yang2018WhyTF,
+    title   = {Why the Firefly Algorithm Works?},
+    author  = {Xin-She Yang and Xingshi He},
+    journal = {ArXiv},
+    year    = {2018},
+    volume  = {abs/1806.01632},
+    url     = {https://api.semanticscholar.org/CorpusID:46940737}
+}
+```
+
+```bibtex
+@article{article,
+    author  = {El-Shorbagy, M. and Elrefaey, Adel},
+    year    = {2022},
+    month   = {04},
+    pages   = {706-730},
+    title   = {A hybrid genetic-firefly algorithm for engineering design problems},
+    volume  = {Journal of Computational Design and Engineering, Volume 9},
+    journal = {Journal of Computational Design and Engineering},
+    doi     = {10.1093/jcde/qwac013}
+}
+```

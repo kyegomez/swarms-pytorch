@@ -12,6 +12,7 @@ from swarms_torch.transformer_pso import (
     Particle,
     TransformerParticleSwarmOptimization,
 )
+from swarms_torch.firefly import FireflyOptimizer
 from swarms_torch.structs import *  # noqa
 
 __all__ = [
@@ -28,4 +29,5 @@ __all__ = [
     "TransformerParticleSwarmOptimization",
     "HivemindSwarm",
     "MixtureOfMambas",
+    "FireflyOptimizer",
 ]
