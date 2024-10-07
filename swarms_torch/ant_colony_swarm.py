@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 
+
 class AntColonyOptimization(nn.Module):
     """
     Ant Colony Optimization
