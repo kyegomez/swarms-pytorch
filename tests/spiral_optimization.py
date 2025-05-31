@@ -1,5 +1,5 @@
 import torch
-from swarms_torch.spiral_optimization import SPO
+from swarms_torch.utils.spiral_optimization import SPO
 
 
 def test_spo_initialization():

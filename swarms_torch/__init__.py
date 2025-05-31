@@ -5,9 +5,9 @@ from swarms_torch.structs.hivemind_swarm_transformer import HivemindSwarm
 from swarms_torch.structs.mixture_of_mamba import MixtureOfMambas
 from swarms_torch.pso.multi_swarm_pso import MultiSwarmPSO
 from swarms_torch.structs.neuronal_transformer import NNTransformer
-from swarms_torch.particle_swarm import ParticleSwarmOptimization
+from swarms_torch.utils.particle_swarm import ParticleSwarmOptimization
 from swarms_torch.structs.queen_bee import QueenBeeGa
-from swarms_torch.spiral_optimization import SPO
+from swarms_torch.utils.spiral_optimization import SPO
 from swarms_torch.pso.transformer_pso import (
     Particle,
     TransformerParticleSwarmOptimization,
