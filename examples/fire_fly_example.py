@@ -1,4 +1,4 @@
-from swarms_torch.firefly import FireflyOptimizer
+from swarms_torch.structs.firefly import FireflyOptimizer
 from torch import Tensor
 
 

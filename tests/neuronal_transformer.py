@@ -1,5 +1,5 @@
 import torch
-from swarms_torch.neuronal_transformer import (
+from swarms_torch.structs.neuronal_transformer import (
     TransformerLayer,
     Neuron,
     SynapseTransformer,

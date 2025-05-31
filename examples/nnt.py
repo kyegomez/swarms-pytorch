@@ -1,5 +1,5 @@
 import torch
-from swarms_torch.neuronal_transformer import NNTransformer
+from swarms_torch.structs.neuronal_transformer import NNTransformer
 
 x = torch.randn(1, 10)
 

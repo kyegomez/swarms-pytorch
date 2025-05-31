@@ -1,5 +1,5 @@
 import torch
-from swarms_torch.mixture_of_mamba import MixtureOfMambas
+from swarms_torch.structs.mixture_of_mamba import MixtureOfMambas
 
 # Example Usage
 num_models = 3

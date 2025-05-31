@@ -1,6 +1,6 @@
 import pytest
 import torch
-from swarms_torch.hivemind_swarm_transformer import HivemindSwarm
+from swarms_torch.structs.hivemind_swarm_transformer import HivemindSwarm
 
 
 # Create a fixture for the HivemindSwarm model

@@ -1,4 +1,4 @@
-import torch 
+import torch
 from swarms_torch.mergers.all_new_evo_mergers import (
     hyperslice_merge,
     random_subspace_merge,

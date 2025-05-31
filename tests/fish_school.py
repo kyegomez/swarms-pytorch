@@ -1,5 +1,5 @@
 import torch
-from swarms_torch.fish_school import Fish, FishSchool
+from swarms_torch.structs.fish_school import Fish, FishSchool
 
 
 def test_fish_initialization():

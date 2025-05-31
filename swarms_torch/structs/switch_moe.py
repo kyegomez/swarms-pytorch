@@ -63,11 +63,18 @@ class SwitchGate(nn.Module):
         gate_scores = (masked_gate_scores / denominators) * capacity
 
         if use_aux_loss:
-            load = gate_scores.sum(0)  # Sum over all examples
-            importance = gate_scores.sum(1)  # Sum over all experts
+            # Calculate load balancing loss
+            # Both metrics should be per-expert (sum over batch dimension)
+            load = gate_scores.sum(
+                0
+            )  # Sum over all examples - shape: (num_experts,)
+            importance = gate_scores.mean(
+                0
+            )  # Mean over all examples - shape: (num_experts,)
 
-            # Aux loss is mean suqared difference between load and importance
-            loss = ((load - importance) ** 2).mean()
+            # Aux loss encourages load balancing between experts
+            # Using coefficient from Switch Transformer paper
+            loss = self.num_experts * ((load * importance).sum())
 
             return gate_scores, loss
 

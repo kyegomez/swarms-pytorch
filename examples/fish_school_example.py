@@ -1,5 +1,5 @@
 import torch
-from swarms_torch.fish_school import Fish, FishSchool
+from swarms_torch.structs.fish_school import Fish, FishSchool
 
 # Create random source and target sequences
 src = torch.randn(10, 32, 512)

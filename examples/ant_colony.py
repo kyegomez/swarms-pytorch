@@ -1,4 +1,4 @@
-from swarms_torch.ant_colony_swarm import AntColonyOptimization
+from swarms_torch.structs.ant_colony_swarm import AntColonyOptimization
 
 # Usage:
 goal_string = "Hello ACO"
