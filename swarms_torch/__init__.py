@@ -13,6 +13,12 @@ from swarms_torch.pso.transformer_pso import (
     TransformerParticleSwarmOptimization,
 )
 from swarms_torch.structs.firefly import FireflyOptimizer
+from queen_bee_transformer_hierarchy import (
+    QueenBeeTransformerHierarchy,
+    GeneticTransformerEvolution,
+    QueenWorkerCommunication,
+    WorkerTransformer,
+)
 from swarms_torch.structs import *  # noqa
 
 __all__ = [
@@ -30,4 +36,8 @@ __all__ = [
     "HivemindSwarm",
     "MixtureOfMambas",
     "FireflyOptimizer",
+    "QueenBeeTransformerHierarchy",
+    "GeneticTransformerEvolution",
+    "QueenWorkerCommunication",
+    "WorkerTransformer",
 ]

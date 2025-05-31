@@ -301,7 +301,7 @@ Swarms is an open-source project, and contributions are VERY welcome. If you wan
 Join our growing community around the world, for real-time support, ideas, and discussions on Swarms 😊 
 
 - View our official [Blog](https://swarms.apac.ai)
-- Follow us on [Twitter](https://twitter.com/kyegomez)
+- Follow us on [Twitter](https://twitter.com/swarms_corp)
 - Connect with us on [LinkedIn](https://www.linkedin.com/company/the-swarm-corporation)
 - Visit us on [YouTube](https://www.youtube.com/channel/UC9yXyitkbU_WSy7bd_41SqQ)
 - [Join the Swarms community on Discord!](https://discord.gg/jM3Z6M9uMq)
