@@ -20,9 +20,8 @@ Author: Swarms PyTorch Team
 License: MIT
 """
 
-import math
 import random
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple
 
 import torch
 import torch.nn as nn
